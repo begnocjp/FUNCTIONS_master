@@ -34,9 +34,16 @@ posttrig =  round(cfg.trialdef.post * cfg.hdr.Fs);
 cfg.trl = []
 trlbegin = sample + pretrig;      %  begin trial
 trlend   = sample + posttrig;     %  end of trial
-offset = pretrig*ones(size(trlend));              %  a negative offset indicates that the trial begins before the trigger      
+offset   = pretrig;               %  a negative offset indicates that the trial begins before the trigger      
 
-cfg.trl = [trlbegin trlend offset]; % concatenate the columns into the trl matrix
+for j = 1:(length(value))
+if value == value
+  offset   = pretrig(1:(length(value)));
+
+end
+
+% concatenate the columns into the trl matrix
+cfg.trl = [trlbegin trlend offset];
   
   
  trdat = ft_redefinetrial(cfg,data);

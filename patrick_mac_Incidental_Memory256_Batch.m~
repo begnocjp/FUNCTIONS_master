@@ -72,7 +72,7 @@ for name_i = length(wpms.names)
     patrick_ccm256_auto_ica(wpms,name_i);
 end
 
-%% Trial Definition ONLY : Alerting_nocue
+%% Trial Definition ONLY
 %%%changed pre and post trial times - 
 for name_i = length(wpms.names)   
     pre_trial = .5; %for target 1 sec on each side, for cue 
@@ -88,9 +88,9 @@ end
 for name_i = length(wpms.names)   
     pre_trial = .5; %for target 1 sec on each side, for cue 
     post_trial = .5;
-    trialfunction = 'Incident_M'; %will need to change per task, each task has trial function, will need to edit function for ANT task
+    trialfunction = 'patrick_Alerting_nocue'; %will need to change per task, each task has trial function, will need to edit function for ANT task
     file_ext = 'raw';
-    trdat = patrick_ccm_trial_definition(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+    trdat = patrick_Alerting_nocue(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
     clear post_trial pre_trial trialfunction
     %patrick_ccm_ICA(wpms,name_i,trdat);        
 end
