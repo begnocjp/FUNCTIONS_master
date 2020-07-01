@@ -1,1 +1,1 @@
-# FUNCTIONS_master
+# EEG_functions
