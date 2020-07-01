@@ -1,0 +1,238 @@
+%% From Mike Cohen Script:
+%   austraEEG_newmultivar_trainREvsSA.m
+%
+%   Description:  Wavelet Analysis for Switch vs NonInformative
+%
+%   Assumptions:
+%   1. Cohens file assumes that the data has been preprocessed.
+%   2. imports 
+%           a. electrode data, 
+%           b. reaction times (rt) for cutoffs
+%           c. assigns times to test: -200:30:1500 milliseconds (sampling
+%               frequency is 1000/30 = 33.33 Hz)
+%           d. Time Window used is 20ms.
+%           e. build SUBJECTNAME list
+%           f. frequency of instrest from 2Hz to 50Hz in logspace using
+%           20 samples (frex=logspace(log10(2),log10(50),20);)  
+%   3. Processing
+%           a. assign filename SUBJECTNAME.multivar_S2NI.mat
+%           b. load SUBJECTNAME data
+%           c. Perform reaction time recjection: 
+%               removes trials with RT<200 (too fast) or >3std+mean (too slow)
+%           d. build lookuptable: time vs array index
+%               pnts/(srate/2) : 1/srate : pnts/srate - 1/srate
+%           e. initialize matricies: Repeat (RE), SwitchTo (ST), Non-Inf
+%           (NI) SwitchAway (SA)
+%               - RE vs ST
+%               - RE vs NI
+%               - SA vs NT
+%               - SA vs NI
+%               - RE vs SA
+%           f. Perform wavelet transform:
+%               1. FOR all frequency in frex
+%                   a. calculate wavelet
+%                   b. initialise frequency data as cell array of ALLEEG
+%                   c. FOR all channels
+%                       i. Perform wavelet transform: freq-dom convolution
+%                       parameters
+%                       ii. FFT of data
+%                       iii.  convolution
+%                       vi.  store data
+%           g. compute trial-averaged baseline-corrected power
+%           h. first, make groups of trials (increase SNR and reduce N for logit testing)
+%           i. do multivariate analysis
+%                   :
+%                   :
+%                   :
+%           j. save data
+% Modified by Aaron Wong
+% Date 8/8/2013
+% ------------------- SCRIPT START ------------------------
+
+% Clear all precvious work and close all windows
+clear all;
+close all;
+
+
+% disable all warnings
+warning('off','all')
+
+
+%% Path Setup
+% CWD = Current working Directory:
+% homedir = Home Directory of top level directory.
+% Filename = Name of file
+
+CWD = 'F:\fieldtrip\';
+DATA_DIR = 'EEGLAB_FORMAT\';
+WAVELET_OUTPUT_DIR = 'WAVELET_OUTPUT\';
+CHANNELS = 1:64;
+current_file_types = [{'dirleft'},{'dirright'},{'nondirleft'},{'nondirright'}];
+names = struct('pnum',{ 'DCR102' 'DCR103' 'DCR104' 'DCR106' 'DCR107' 'DCR108' 'DCR109' 'DCR110' 'DCR111' ... 
+    'DCR112' 'DCR113' 'DCR114' 'DCR115' 'DCR117' 'DCR118' 'DCR119' 'DCR120' 'DCR121' ...
+    'DCR122' 'DCR123' 'DCR124' 'DCR125' 'DCR202' 'DCR203' 'DCR204' 'DCR206' 'DCR207' ... 
+    'DCR208' 'DCR209' 'DCR210' 'DCR211' 'DCR212' 'DCR213' 'DCR214' 'DCR215' 'DCR217' ... 
+    'DCR218' 'DCR219' 'DCR220' 'DCR221' 'DCR222' 'DCR223' 'DCR224' 'DCR225' 'S1' 'S1B' ... 
+    'S4' 'S4B' 'S5' 'S5B' 'S6' 'S6B' 'S7' 'S7B' 'S8' 'S8B' 'S10' 'S10B' 'S11' 'S11B' 'S12' 'S12B' 'S13' 'S13-1' 'S13B' ...
+    'S14' 'S14B' 'S15' 'S15B' 'S16' 'S16B' 'S17' 'S17B' 'S18' 'S18B' 'S20' 'S20B' 'S21' 'S21B' ...
+    'S22' 'S22B' 'S23' 'S23B' 'S24' 'S24B' 'S25' 'S25B' 'S26' 'S26B' 'S27' 'S27B' 'S28' 'S28B' 'S29' 'S29B' ...
+    'S30' 'S30B' 'S31' 'S31B' 'S34' 'S34B' 'S36' 'S36B' 'S37' 'S37B' 'S38' 'S38B' ...
+    'S39' 'S39B' 'S40' 'S40B'}); %artefact rejection list
+
+%% Analysis Setup:
+
+times2test=-400:0.5:3000;       % in ms
+timewindow=20;                  % also in ms 
+egroups =  num2cell(1);         % all electrodes
+bins = 80;
+frex=logspace(log10(2),log10(50),bins);     % Hz
+
+matlabpool(4);
+try
+%% Begin Analysis: Loop Condition, Channel
+for name_i = 1:length(names)
+for cond_i = 1:length(current_file_types)
+    for channi = CHANNELS
+        fprintf('%s Begin Processing: \tCondition: %s \tChannel: %i\n', current_file_types{cond_i},channi);
+        current_file = [names(1,name_i).pnum,'\',current_file_types{cond_i},'\',num2str(channi),'.mat'];
+        filename = [CWD,DATA_DIR,current_file];
+
+        resultsdir  = [CWD,WAVELET_OUTPUT_DIR];
+        mkdir(resultsdir);
+
+        %% Load File
+        tic;
+        load(filename);
+        t = toc;
+        fprintf('\t%s Loadded: %s in %3.3fseconds\n',current_file,EEG.comments,t);
+
+        %% Initialise time/frequency parameters:
+  
+
+        % convert times to idx
+        times2testidx=zeros(size(times2test));
+        parfor i=1:length(times2test)
+            [junk,times2testidx(i)]=min(abs(EEG.times*1000-times2test(i)));
+        end
+
+        % define time and cycles for wavelets
+        t=-EEG.pnts/EEG.srate/2:1/EEG.srate:EEG.pnts/EEG.srate/2-1/EEG.srate;
+        timewindowidx=round(timewindow/(1000/EEG.srate)/2);
+        numcycles=logspace(log10(3),log10(14),length(frex));
+
+        mw_tf  = zeros(length(frex),length(times2test),'single');
+        complex_mw_tf  = zeros(length(frex),length(times2test),'single');
+
+        %% loop over frequencies:
+        parfor fi=1:length(frex) 
+            % extract frequency band-specific oscillation power
+            fprintf('Calculating for %3.2f Hz \n', frex(fi));
+
+            % create wavelet
+            centerfreq = frex(fi);
+            wavelet=exp(2*1i*pi*centerfreq.*t).*exp(-t.^2./(2*(numcycles(fi)/(2*pi*centerfreq))^2));
+
+            % further initialize freqdata
+            freqdata = zeros(size(EEG.data));
+            complex_freqdata = zeros(size(EEG.data));
+            % loop over channels
+            fprintf(' \t Calculating for Channel: %3.2f, %s', frex(fi),EEG.comments);
+            %for chani=1:ALLEEG(condi).nbchan
+            
+   
+            % frequency-domain convolution parameters
+            Ldata  =  numel(EEG.data(1,:,:));
+            Lconv1 =  Ldata+EEG.pnts-1;
+            Lconv  =  pow2(nextpow2(Lconv1));
+
+            % FFT of data
+            EEGfft = fft(reshape(EEG.data(1,:,:),1,EEG.pnts*EEG.trials),Lconv);
+            fprintf(' \t AFTERFFT: %3.2f, %s', frex(fi),EEG.comments);
+            % convolution (in frequency domain, thanks to convolution theorem)
+            m = ifft(EEGfft.*fft(wavelet,Lconv),Lconv);
+            m = m(1:Lconv1);
+            m = reshape(m(floor((EEG.pnts-1)/2):end-1-ceil((EEG.pnts-1)/2)),EEG.pnts,EEG.trials);
+            fprintf(' \t AFTER CONVOLUTION: %3.2f, %s', frex(fi),EEG.comments);
+            
+            % store data
+            freqdata(1,:,:) = abs(m).^2;
+            complex_freqdata(1,:,:) = m;
+            fprintf(' \t AFTER STORE: %3.2f, %s', frex(fi),EEG.comments);
+            
+            fprintf(' \n');
+            %end
+
+            %% compute trial-averaged baseline-corrected power
+
+            baselineperiod=[ -0.2 0 ];
+
+            [~,StartBaselineIdx]=min(abs(EEG.times-baselineperiod(1)));
+            [~,EndBaselineIdx]=min(abs(EEG.times-baselineperiod(2)));
+            fprintf('\n\ncompute trial-averaged baseline-corrected power\n\n');
+            %for condi=1:length(freqdata)
+            %   fprintf(' \t \t Calculating for condition %i \n', condi);
+            %numChan = 1;
+                
+            fprintf(' \t \t Calculating for channel %i %s\n', 1,EEG.comments);
+            mw_tf(fi,:) = 10*log10( squeeze(mean(freqdata(1,times2testidx,:),3)) ./ mean(mean(freqdata(1,StartBaselineIdx:EndBaselineIdx,:),3),2) ); 
+            complex_mw_tf(fi,:) = squeeze(mean(complex_freqdata(1,times2testidx,:),3));
+            %numChan = numChan+1;
+
+        
+ 
+        end % end frequency loop
+     subfilename = [names(1,name_i).pnum,'_',current_file_types{cond_i},'_',num2str(channi)];
+     SAVE_filename = [resultsdir,'\',names(1,name_i).pnum,'\',current_file_types{cond_i},'\',subfilename,'_imagcoh_mwtf.mat'];    
+     mkdir([resultsdir,'\',names(1,name_i).pnum]);
+     mkdir([resultsdir,'\',names(1,name_i).pnum,'\',current_file_types{cond_i}]);
+     
+     save(SAVE_filename,'*mw_tf','-v7.3');
+     
+    %t = [0 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 3400 3600];
+    t1 = -200:200:3000;
+    t = t1*EEG.srate/1000+800;
+    
+    tms = (t - 800)/EEG.srate*1000;
+    tmscell = cell(1,length(tms));
+    for  i =1:length(tms)
+        tmscell{1,i} = num2str(round(tms(1,i)));
+    end
+    CHIGH = 1.0;
+    CLOW = -1.0;
+    %for condi= 1:size(mw_tf,1)
+        %for chani = 1:size(mw_tf,1)
+    
+            screen_size = get(0, 'ScreenSize');
+            f1 = figure(1);
+            set(f1, 'Position', [0 0 screen_size(3) screen_size(4) ] );
+            n = 3*4;
+            imagesc (reshape(mw_tf(1:bins-n,:),bins-n,length(times2test(:))),[CLOW CHIGH]);
+            titlename = ['Condition: ',current_file];
+            title(titlename);
+            set(gca,'YDir','normal')
+            set(gca,'YTick',[1 19 32 36 47 68]);
+            set(gca,'YTickLabel',{'2.0','4.2','7.1','8.3','13.0','30.7'});
+            
+            set(gca,'XTick',t);
+            set(gca,'XTickLabel',tmscell);
+            set(get(gca,'YLabel'),'String','Frequency (Hz)');
+            set(get(gca,'XLabel'),'String','Time (ms)');
+            grid on;
+            colorbar;
+            saveas(gcf,[resultsdir,'\',names(1,name_i).pnum,'\',current_file_types{cond_i},'\',subfilename],'bmp');
+            saveas(gcf,[resultsdir,'\',names(1,name_i).pnum,'\',current_file_types{cond_i},'\',subfilename],'fig');
+            saveas(gcf,[resultsdir,'\',names(1,name_i).pnum,'\',current_file_types{cond_i},'\',subfilename,'.eps'], 'psc2');
+            %pause;
+            close all;
+        %end
+    end %channel loop
+    
+end %Condition Loop  
+
+end %Participant Loop
+
+catch exception
+    matlabpool close force
+    exception
+end
+matlabpool close
