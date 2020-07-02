@@ -48,9 +48,10 @@ cfg.trl = [trlbegin trlend offset]; % concatenate the columns into the trl matri
  trdat = ft_redefinetrial(cfg,data);
  
  info = cfg.event(value) %get trial info for both conditions
- infotr = {info(:).value}'
-  
-    trdat.trialinfo  =  info(:).value;
+
+    trdat.trialinfo  =  {info(:).value}';
+    trdat.trialinfo_s  =  {info(:).value}'
+    trdat.trialinfo  =  str2double(trdat.trialinfo) %convert trial info to NaN double for auto 
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat'],'trdat','-v7.3'); % added this into to save trial data for auto artifact rejeciton 
     %clear data tdat%tidying
 
