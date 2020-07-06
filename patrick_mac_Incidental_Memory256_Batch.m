@@ -72,6 +72,17 @@ for name_i = length(wpms.names)
     patrick_ccm256_auto_ica(wpms,name_i);
 end
 
+%% Trial Definition ONLY : Alerting
+%%%changed pre and post trial times - 
+for name_i = length(wpms.names)   
+    pre_trial = .5; %for target 1 sec on each side, for cue 
+    post_trial = .5;
+    trialfunction = 'patrick_Alerting'; %will need to change per task, each task has trial function, will need to edit function for ANT task
+    file_ext = 'raw';
+    trdat = patrick_Alerting(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+    clear post_trial pre_trial trialfunction
+    %patrick_ccm_ICA(wpms,name_i,trdat);        
+end
 %% Trial Definition ONLY : Alerting_nocue
 %%%changed pre and post trial times - 
 for name_i = length(wpms.names)   
@@ -247,19 +258,20 @@ end
 %% PRODUCE TIMELOCK ERP - Not for Coherency analysis
 % START AFTER REINTERPOLATION!
 
-for name_i = 1:3 %length(wpms.names)
-    conditions = {'attention','repeat','single'};
-    cond = {'attn','rept','sgnl'};
+for name_i = 1%:3 %length(wpms.names)
+    conditions = {'Alerting','Orienting','Executive'};
+    cond = {'target','non-target'};
     
-    condition_code_values.attn = 1;
-    condition_code_values.sngl = 2;
-    condition_code_values.rept = 3;
+    condition_code_values.alert = 1;
+    condition_code_values.orient = 2;
+    condition_code_values.executive = 3;
     %baseline is from -200 to 0 (stimuli)
     
     baseline_start = floor(sampling_frequency*0.8);
     baseline_end = floor(sampling_frequency*1.0);
     for cond_i = 1:length(conditions)
-        timelock.(conditions{cond_i}) = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);
+        %timelock.(conditions{cond_i}) = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);
+        timelock = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);
     end;
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock*','-v7.3');
     clear timelock*
@@ -270,5 +282,5 @@ close all;
 for name_i = 1%:length(wpms.names)
     isreverse_ydir = true; %true or false
     channel = 30;
-    ccm_plotERP(wpms,name_i,channel,isreverse_ydir)
+    patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir)
 end

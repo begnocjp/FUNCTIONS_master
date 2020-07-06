@@ -16,16 +16,14 @@ fprintf('%s %s %s \n','----- Begin Trial Definition -----','Participant:',wpms.n
 
 
 
-value1      = [find(strcmp('wnou', {cfg.event.value}))]'% find trials with trigger value for "no cue"
+value1      = [find(strcmp('wnou', {cfg.event.value}))]'% find trials with trigger value 'wnou'
 value2      = [find(strcmp('wnod', {cfg.event.value}))]'
+value       = vertcat(value1, value2) %combine the two
 
-value      = vertcat(value1, value2) %combine the two
 
 sample1     = [cfg.event(find(strcmp('wnou', {cfg.event.value}))).sample]'; %get samples for both conditions
 sample2     = [cfg.event(find(strcmp('wnod', {cfg.event.value}))).sample]';
-
 sample =       vertcat(sample1, sample2)  %combine the two
-
 
 
 info = cfg.event(value) %get trial info for both conditions
@@ -54,7 +52,7 @@ offset = pretrig*ones(size(trlend));              %  a negative offset indicates
 cfg.trl = [trlbegin trlend offset]; % concatenate the columns into the trl matrix
   
   
- trdat.alerting_no_cue = ft_redefinetrial(cfg,data);
+ trdat = ft_redefinetrial(cfg,data);
  
  info = cfg.event(value) %get trial info for both conditions
 

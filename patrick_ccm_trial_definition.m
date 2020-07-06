@@ -48,35 +48,7 @@ function [trdat] = ccm_trial_definition(wpms,name_i,trialfunction,pre_trial,post
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat'],'trdat','-v7.3'); % added this into to save trial data for auto artifact rejeciton 
     clear data tdat%tidying
 
-    
-    
-    
-   %%%%%%%%%%%% testing define trial %%%%%%%%%%%%%%%% 
-    
-    
-    
-    
-cfg = [];
-cfg.dataset   = data;
-cfg.trialfun  = 'ft_trialfun_general';
-cfg.trialdef.eventtype  = 'STI101';
-cfg.trialdef.eventvalue = 1;
-cfg.trialdef.prestim    = 0.050; % in seconds
-cfg.trialdef.poststim   = 0.250; % in seconds
-cfg = ft_definetrial(cfg); 
-    
-    
-    
-    
-cfg = [];
-cfg.dataset   = [wpms.dirs.CWD wpms.dirs.RAW wpms.names{name_i} '.' file_ext];
-cfg.trialfun  = 'ft_trialfun_general';
-cfg.trialdef.eventtype  = 'trigger';
-cfg.trialdef.eventvalue = 'bgin';
-cfg.trialdef.prestim    = 0.050; % in seconds
-cfg.trialdef.poststim   = 0.250; % in seconds
-cfg = ft_definetrial(cfg);    
-    
+
     
     
     

@@ -3,7 +3,9 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,condition,bas
 
     fprintf('---- Time Lock Analysis on: %s ----\n', wpms.names{name_i});
     
-    DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_CSD_' condition '.mat']);
+    %DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} %'_CSD_' condition '.mat']); %for CSD data
+    %DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat' '.mat']); % use repaired and rereferenced? 
+    DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED'])
     a = fieldnames(DATA);
     a = a{1,1};
 
@@ -13,6 +15,8 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,condition,bas
     
     begsample = baseline_start; %410 = -200ms, or  460 = -100ms 
     endsample = baseline_end; %50ms
+    
+    %do beg.end sample need to be negative??
     
     for i = 1:length(DATA.(a).trial)
         DATA.(a).trial{1,i}= ft_preproc_baselinecorrect(DATA.(a).trial{1,i}, begsample, endsample);
@@ -35,4 +39,8 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,condition,bas
     %cfg.trials             = find(ismember(DATA.(a).trialinfo,codes));
     [timelock_erp] = ft_timelockanalysis(cfg, DATA.(a));
     
+    
+   
+
+
 end
