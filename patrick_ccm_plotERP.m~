@@ -18,7 +18,7 @@ function ccm_plotERP(wpms,name_i,channel,reverse)
         str_cells_no_underscore = condition_names;
         removed_underscore = [];
         for i = 1:length(str_cells_no_underscore)
-            removed_underscore = [removed_underscore, str_cells_no_underscore{i}];
+            removed_underscore(i) = [removed_underscore, str_cells_no_underscore{i}];
         end
 
         

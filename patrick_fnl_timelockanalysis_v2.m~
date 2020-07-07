@@ -1,4 +1,4 @@
-function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions,baseline_start,baseline_end)
+function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,condition,baseline_start,baseline_end)
 
 
     fprintf('---- Time Lock Analysis on: %s ----\n', wpms.names{name_i});
@@ -37,9 +37,9 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions,ba
     cfg.removemean         = 'yes';
     cfg.vartrllength       = 0;
     cfg.trials             = find(ismember(DATA.(a).trialinfo,i));
-    [timelock_erp.conditions(i)] = ft_timelockanalysis(cfg, DATA.(a));
+    [timelock_erp_.conditions(i)] = ft_timelockanalysis(cfg, DATA.(a));
     end
-    save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock_erp','-v7.3');
+    
    %find(ismember(DATA.refdat.trialinfo,1))
 
 
