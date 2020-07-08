@@ -21,23 +21,13 @@ function ccm_plotERP(wpms,name_i,channel,reverse)
         end
 
         
-        removed_underscore1 = [str_cells_no_underscore{1},' ']; 
-        removed_underscore2 = [str_cells_no_underscore{2},' '];
-        
-        
-        legend_details = [ legend_details,  '''',removed_underscore1,'''',', '];
-        legend_details = [ legend_details,  '''',removed_underscore2,'''',', '];
+        legend_details = [ legend_details,  '''',removed_underscore,'''',', '];
     end
     
-   tokenzie(legend_details, ' ') 
-    
    d = tokenize(removed_underscore,' ')
-   ld = [];
-   ld = [d(1), d(2)]
+   ld = {d(1), ' ', d(2)}
 
-   
-   
-   
+    
     xlabel('Time (ms)');
     ylabel('uV')
     

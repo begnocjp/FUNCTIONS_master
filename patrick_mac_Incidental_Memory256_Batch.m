@@ -259,7 +259,7 @@ end
 % START AFTER REINTERPOLATION!
 
 for name_i = 1%:3 %length(wpms.names)
-    conditions = {'Alerting_nocue','Alerting_double'};
+    conditions = {'nocue','double'};
     %cond = {'target','non-target'};
     
     condition_code_values.nocue  = 1;
@@ -268,13 +268,13 @@ for name_i = 1%:3 %length(wpms.names)
   
     %baseline is from -200 to 0 (stimuli)
     
-    baseline_start =  floor(sampling_frequency*0.8);
-    baseline_end =     floor(sampling_frequency*1.0);
+%     baseline_start =  floor(sampling_frequency*0.8); % used for baseline correcetion of trials before ERP calculation 
+%     baseline_end =     floor(sampling_frequency*1.0);
     for i = 1:length(conditions)
-        timelock.conditions(i) = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions(i),baseline_start,baseline_end);
+        timelock.conditions(i) = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions(i));
         %timelock = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);
     end;
-    save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock*','-v7.3');
+    %save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock*','-v7.3');
     clear timelock*
 end
 
