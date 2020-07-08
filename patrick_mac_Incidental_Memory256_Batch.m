@@ -33,7 +33,7 @@ for name_i = length(wpms.names)
     [dat] = ccmegi_importeeg_and_downsample(wpms,'raw',name_i,sampling_frequency); % should not need to downsample, may write different function for this.
     [refdat] = fnl_rereference(dat,'all');
     
-    clear dat
+    clear datc
     
     [data] = ccm_preproc_filter(refdat,'no',[58 62],'yes',50,4,'but','yes',0.5,'onepass',1,'but'); 
 % no high-pass needed EGI data sampled at 0.1-100 Hz
@@ -268,8 +268,8 @@ for name_i = 1%:3 %length(wpms.names)
   
     %baseline is from -200 to 0 (stimuli)
     
-    baseline_start = floor(sampling_frequency*0.8);
-    baseline_end = floor(sampling_frequency*1.0);
+    baseline_start =  floor(sampling_frequency*0.8);
+    baseline_end =     floor(sampling_frequency*1.0);
     for i = 1:length(conditions)
         timelock.conditions(i) = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions(i),baseline_start,baseline_end);
         %timelock = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);

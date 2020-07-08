@@ -6,8 +6,6 @@ function ccm_plotERP(wpms,name_i,channel,reverse)
    % DATA = DATA.timelock_erp;
     figure();
     hold on; 
-    channel = 62; %po8 *right hemisphere
-    channel = 25; %po7 *left hemisphere
     colours = [{'-b'}; {'-g'}; {'-r'}; {'-c'};{'-m'};{'-k'};{'-y'}];
     legend_details = [];
     for plot_i = 1:length(condition_names)
