@@ -283,7 +283,7 @@ end
 close all;
 for name_i = 1%:length(wpms.names)
     isreverse_ydir = true; %true or false
-    conditions = {'nocue','double'};
+    conditions = {'nocue','double','diff'};
     channel = 30;
     patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir, conditions)
 end

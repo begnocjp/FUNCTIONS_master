@@ -4,16 +4,6 @@ function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
     condition_names = conditions;
    % DATA = DATA.timelock;
    % DATA = DATA.timelock_erp;
-   
-     %make difference waves
-        
-        cfg = [];
-        cfg.operation = 'subtract'
-        cfg.parameter = 'avg'
-        AlertDiff = ft_math(cfg, DATA.timelock(1), DATA.timelock(2));
-        DATA.timelock(3).avg = AlertDiff.avg
-        DATA.timelock(3).time = AlertDiff.time
-        
     figure();
     hold on; 
     colours = [{'-b'}; {'-g'}; {'-r'}; {'-c'};{'-m'};{'-k'};{'-y'}];
@@ -33,17 +23,28 @@ function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
       
     end
     
+    %make difference wave
 
+AlertDiff = tl1;
+tlDiff.avg = tl1.avg - tl2.avg;
+    
+    
+    
+    cfg = [];
+tl1 = ft_timelockanalysis(cfg, data1);
+tl2 = ft_timelockanalysis(cfg, data2);
+
+tlDiff = tl1;
+tlDiff.avg = DATA.timelock(1).avg - DATA.timelock(2).avg;
+    
     
      %arrange data for legend
         
         removed_underscore1 = [str_cells_no_underscore{1},' ']; 
         removed_underscore2 = [str_cells_no_underscore{2},' '];
-        removed_underscore3 = [str_cells_no_underscore{3},' '];
-        
+ 
         legend_details = [ legend_details,  '''',removed_underscore1,'''',', '];
         legend_details = [ legend_details,  '''',removed_underscore2,'''',', '];
-        legend_details = [ legend_details,  '''',removed_underscore3,'''',', '];
    
     xlabel('Time (ms)');
     ylabel('uV')
