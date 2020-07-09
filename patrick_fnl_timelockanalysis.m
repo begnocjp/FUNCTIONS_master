@@ -10,9 +10,9 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions)
     a = a{1,1};
 
     
-    t = toc;
-    fprintf('\t---- BaseLine Correction Finnished: %s %3.3f seconds----\n',  wpms.names{name_i},t);
-    
+%     t = toc;
+%     fprintf('\t---- BaseLine Correction Finnished: %s %3.3f seconds----\n',  wpms.names{name_i},t);
+%     
     %Time Lock for Each Class:
     %data_clean = refdat;
     %clear data;
@@ -36,10 +36,12 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions)
     cfg=[];
     cfg.baseline = [-0.2 0];
     timelock_erp.conditions_blcor(i) = ft_timelockbaseline(cfg, timelock_erp.conditions(i));
+    
       end
     
-    timelock = timelock_erp.conditions_blcor
-    
+    timelock = timelock_erp.conditions_blcor  
+      
+      
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock','-v7.3');
    %find(ismember(DATA.refdat.trialinfo,1))
 

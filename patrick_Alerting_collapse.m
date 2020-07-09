@@ -1,5 +1,5 @@
 
-function [trdat] = patrick_Alerting_nocue(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+function [trdat] = patrick_Alerting_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
 
 fprintf('%s %s %s \n','----- Begin Trial Definition -----','Participant:',wpms.names{name_i});
     %cd([CWD,PREPROC_OUTPUT]);
@@ -73,7 +73,7 @@ cfg.trl = [trlbegin trlend offset]; % concatenate the columns into the trl matri
    % trdat.trialinfo  =  str2double(trdat.trialinfo) %convert trial info to NaN double for auto 
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat'],'trdat','-v7.3'); % added this into to save trial data for auto artifact rejeciton 
     %clear data tdat%tidying
-
+end
 %load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat'])
 
 % WARNING STIM CODES

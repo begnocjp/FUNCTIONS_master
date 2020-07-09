@@ -1,4 +1,4 @@
-function ccm_plotERP(wpms,name_i,channel,reverse)
+function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
     
     DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat']);
     condition_names = conditions;
@@ -20,23 +20,16 @@ function ccm_plotERP(wpms,name_i,channel,reverse)
             removed_underscore = [removed_underscore, str_cells_no_underscore{i},' '];  
         end
 
+      
+    end
+    
+     %arrange data for legend
         
         removed_underscore1 = [str_cells_no_underscore{1},' ']; 
         removed_underscore2 = [str_cells_no_underscore{2},' '];
-        
-        
+ 
         legend_details = [ legend_details,  '''',removed_underscore1,'''',', '];
         legend_details = [ legend_details,  '''',removed_underscore2,'''',', '];
-    end
-    
-   tokenzie(legend_details, ' ') 
-    
-   d = tokenize(removed_underscore,' ')
-   ld = [];
-   ld = [d(1), d(2)]
-
-   
-   
    
     xlabel('Time (ms)');
     ylabel('uV')
