@@ -14,11 +14,12 @@ wpms.dirs  = struct('CWD','/Users/patrick/Desktop/EEG/','packages','PACKAGES', .
     'COHERENCE_DIR','IMAGCOH_OUTPUT/','EEGDispOutput','EEGDISPLAY_OUTPUT/');
 
 
-wpms.names = {'1101_ant_002'}
+wpms.names = {'1105_ant_002'}%;'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002';}
 % '1102_mem_002','1103_mem_002','1104_mem_002','1105_mem_002','1106_mem_002'};
 % wpms.names = {'1101_ant_002','1102_ant_002','1103_ant_002','1104_ant_002','1105_ant_002','1106_ant_002'};
 
 % add path
+%                                                                                                                                                                                                                                                                                                                                                                                                                           
 cd([wpms.dirs.CWD]);
 addpath /Users/patrick/Desktop/fieldtrip-20200423
 addpath([wpms.dirs.CWD,wpms.dirs.FUNCTIONS]);
