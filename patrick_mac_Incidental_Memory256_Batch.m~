@@ -11,11 +11,11 @@ clear all
 wpms.dirs  = struct('CWD','/Users/patrick/Desktop/EEG/','packages','PACKAGES', ...
     'FUNCTIONS','FUNCTIONS/','RAW','RAW/','preproc','PREPROC_OUTPUT/', ...
     'DATA_DIR','EEGLAB_FORMAT/','WAVELET_OUTPUT_DIR','WAVELET_OUTPUT_DIR/', ...
-    'COHERENCE_DIR','IMAGCOH_OUTPUT/','EEGDispOutput','EEGDISPLAY_OUTPUT/,
-    'TIMELOCK','TIMELOCK/');
+    'COHERENCE_DIR','IMAGCOH_OUTPUT/','EEGDispOutput','EEGDISPLAY_OUTPUT/', ...
+    'TIMELOCK','TIMELOCK/','GA_TIMELOCK','GA_TIMELOCK/');
 
 
-wpms.names = {'1105_ant_002'}%;'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002';}
+wpms.names = {'1101_ant_002';'1102_ant_002';'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002'};
 % '1102_mem_002','1103_mem_002','1104_mem_002','1105_mem_002','1106_mem_002'};
 % wpms.names = {'1101_ant_002','1102_ant_002','1103_ant_002','1104_ant_002','1105_ant_002','1106_ant_002'};
 
@@ -261,7 +261,7 @@ end
 %% PRODUCE TIMELOCK ERP - Not for Coherency analysis
 % START AFTER REINTERPOLATION!
 
-for name_i = 1%:3 %length(wpms.names)
+for name_i = 1:length(wpms.names)
     conditions = {'nocue','double'};
     %cond = {'target','non-target'};
     
@@ -274,7 +274,7 @@ for name_i = 1%:3 %length(wpms.names)
 %     baseline_start =  floor(sampling_frequency*0.8); % used for baseline correcetion of trials before ERP calculation 
 %     baseline_end =     floor(sampling_frequency*1.0);
 %     for i = 1:length(conditions)
-        timelock.conditions = patrick_fnl_timelockanalysis(wpms,name_i,conditions);
+        patrick_fnl_timelockanalysis(wpms,name_i,conditions);
         %timelock = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);
 %     end;
     %save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock*','-v7.3');
@@ -283,9 +283,27 @@ end
 
 %% Draw TIMELOCK ERP:
 close all;
-for name_i = 1%:length(wpms.names)
+for name_i = 1:length(wpms.names)
     isreverse_ydir = true; %true or false
     conditions = {'nocue','double','diff'};
     channel = 30;
     patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir, conditions)
 end
+%% Make Grand Average ERP!
+
+    caption = 'AlertGrandAverage'
+    conditions = {'nocue','double','diff'};
+    isreverse_ydir = true; %true or false
+    channel = 30;
+    patrick_plot_Grand_Average(wpms,channel,conditions, caption, isreverse_ydir)
+
+
+ 
+
+
+
+
+
+
+
+

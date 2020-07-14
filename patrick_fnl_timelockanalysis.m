@@ -41,6 +41,18 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions)
     
     timelock = timelock_erp.conditions_blcor  
       
+     %make difference waves
+        
+        cfg = [];
+        cfg.operation = 'subtract'
+        cfg.parameter = 'avg'
+        AlertDiff = ft_math(cfg, timelock(1), timelock(2));
+        timelock(3).avg = AlertDiff.avg
+        timelock(3).time = AlertDiff.time
+        timelock(3).label = AlertDiff.label
+        timelock(3).elec = AlertDiff.elec
+        timelock(3).dimord = AlertDiff.dimord
+        timelock(3).cfg = AlertDiff.cfg
       
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock','-v7.3');
    %find(ismember(DATA.refdat.trialinfo,1))

@@ -4,15 +4,15 @@ function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
     condition_names = conditions;
    % DATA = DATA.timelock;
    % DATA = DATA.timelock_erp;
-   
-     %make difference waves
+
+%     cfg = [];
+%     cfg.layout = '/Users/patrick/Desktop/EEG/FUNCTIONS/GSN-HydroCel-256.sfp'
+%     cfg.interactive = 'yes';
+%     cfg.showoutline = 'yes';
+%     ft_multiplotER(cfg, AlertDiff);
+%         
+%         
         
-        cfg = [];
-        cfg.operation = 'subtract'
-        cfg.parameter = 'avg'
-        AlertDiff = ft_math(cfg, DATA.timelock(1), DATA.timelock(2));
-        DATA.timelock(3).avg = AlertDiff.avg
-        DATA.timelock(3).time = AlertDiff.time
         
     figure();
     hold on; 
@@ -62,9 +62,10 @@ function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
     end
     eval(['legend(',legend_details,'''Location'',''SouthWest'');']);
     title([removed_underscore,'Channel: ',num2str(channel),' TIMELOCK ERP']);
-    mkdir([wpms.dirs.CWD wpms.dirs.timelock wpms.names{name_i}])
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.timelock wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP'],'bmp');
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.timelock wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP','.eps'],'psc2');
+    mkdir([wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i}])
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP']);
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP'],'bmp');
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP','.eps'],'psc2');
     
     %clear time;
     %save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK'],'timelock*','-v7.3');
