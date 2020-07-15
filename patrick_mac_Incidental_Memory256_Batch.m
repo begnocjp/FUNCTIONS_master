@@ -15,7 +15,7 @@ wpms.dirs  = struct('CWD','/Users/patrick/Desktop/EEG/','packages','PACKAGES', .
     'TIMELOCK','TIMELOCK/','GA_TIMELOCK','GA_TIMELOCK/');
 
 
-wpms.names = {'1101_ant_002';'1102_ant_002';'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002'};
+wpms.names = {'1101_ant_002';'1102_ant_002';'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002';}
 % '1102_mem_002','1103_mem_002','1104_mem_002','1105_mem_002','1106_mem_002'};
 % wpms.names = {'1101_ant_002','1102_ant_002','1103_ant_002','1104_ant_002','1105_ant_002','1106_ant_002'};
 
@@ -28,9 +28,10 @@ addpath(genpath(['/Users/patrick/Desktop/eeglab2019_1']))
 %addpath(genpath(['/Users/patrick/Desktop/eeglab12_0_2_6b']))
 ft_defaults
 %addpath(genpath([wpms.dirs.CWD,wpms.dirs.packages '\fieldtrip']));
+
 %% Preprocessing I
 %  Import, downsample and re-reference
-for name_i = length(wpms.names)
+for name_i = 1:length(wpms.names)
     sampling_frequency = 250; %hz
     [dat] = ccmegi_importeeg_and_downsample(wpms,'raw',name_i,sampling_frequency); % should not need to downsample, may write different function for this.
     [refdat] = fnl_rereference(dat,'all');
@@ -49,7 +50,7 @@ end
 %first convert data to EEGlab structure
 
 addpath(genpath(['/Users/patrick/Desktop/eeglab2019_1']))
-for name_i = length(wpms.names)
+for name_i = 1:length(wpms.names)
     patrick_ccm256_auto_chan_reject(wpms,name_i);
 end
 
@@ -59,18 +60,18 @@ end
 %end
 
 %% Remove Good Channels from Data to visualize rejected channels:
-for name_i = length(wpms.names)   
+for name_i = 1:length(wpms.names)   
     patrick_fnl_remove_good_channels(wpms,name_i);
 end
 
 %% Remove Bad Channels out from Data:
-for name_i = length(wpms.names)   
+for name_i = 1:length(wpms.names)   
     fnl_remove_bad_channels(wpms,name_i);
 end
 
 %% Automatic ICA
 
-for name_i = length(wpms.names)
+for name_i = 1:length(wpms.names)
     patrick_ccm256_auto_ica(wpms,name_i);
 end
 
@@ -85,18 +86,58 @@ end
 %     clear post_trial pre_trial trialfunction
 %     %patrick_ccm_ICA(wpms,name_i,trdat);        
 % end
+%% Trial Definition ONLY : All_collapse
+%%%changed pre and post trial times - 
+for name_i = 1%:length(wpms.names)   
+    pre_trial = ; %for target 1 sec on each side, for cue 
+    post_trial = .5;
+    trialfunction = 'patrick_All_collapse'; %will need to change per task, each task has trial function, will need to edit function for ANT task
+    file_ext = 'raw';
+    trdat = patrick_All_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+    clear post_trial pre_trial trialfunction
+    clear sample*
+    clear value*
+    %patrick_ccm_ICA(wpms,name_i,trdat);        
+end
 %% Trial Definition ONLY : Alerting_collapse
 %%%changed pre and post trial times - 
-for name_i = length(wpms.names)   
+for name_i = 1:length(wpms.names)   
     pre_trial = .5; %for target 1 sec on each side, for cue 
     post_trial = .5;
     trialfunction = 'patrick_Alerting_collapse'; %will need to change per task, each task has trial function, will need to edit function for ANT task
     file_ext = 'raw';
     trdat = patrick_Alerting_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
     clear post_trial pre_trial trialfunction
+    clear sample*
+    clear value*
     %patrick_ccm_ICA(wpms,name_i,trdat);        
 end
-
+%% Trial Definition ONLY : Orienting_collapse
+%%%changed pre and post trial times - 
+for name_i = 1:length(wpms.names)   
+    pre_trial = .5; %for target 1 sec on each side, for cue 
+    post_trial = .5;
+    trialfunction = 'patrick_Orienting_collapse'; %will need to change per task, each task has trial function, will need to edit function for ANT task
+    file_ext = 'raw';
+    trdat = patrick_Orienting_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+    clear post_trial pre_trial trialfunction
+    clear sample*
+    clear value*
+    %patrick_ccm_ICA(wpms,name_i,trdat);        
+end
+%% Trial Definition ONLY : Executive_collapse
+%%%changed pre and post trial times - 
+for name_i = 1:length(wpms.names)   
+    pre_trial = .5; %for target 1 sec on each side, for target
+    post_trial = .5;
+    trialfunction = 'patrick_Executive_collapse'; %will need to change per task, each task has trial function, will need to edit function for ANT task
+    file_ext = 'raw';
+    trdat = patrick_Executive_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+    clear post_trial pre_trial trialfunction
+    clear sample*
+    clear value*
+    %patrick_ccm_ICA(wpms,name_i,trdat);        
+end
  %% Trial Definition ONLY
 % %%%changed pre and post trial times - 
 % for name_i = length(wpms.names)   
@@ -126,12 +167,12 @@ end
 %end 
 %% Apply artifact rejection 
 %patrick b changed "true" to "1"
-for name_i = length(wpms.names)
+for name_i = 1%:length(wpms.names)
     patrick_ccm_artifact_rejection_auto_v2(wpms,name_i,1,50,-100,100)
 end
 
 %% Reinterpolate bad channels
-for name_i = length(wpms.names)
+for name_i = 1:length(wpms.names)
     ccm256_reinterpolate(wpms,name_i);
 end
 
@@ -262,12 +303,17 @@ end
 % START AFTER REINTERPOLATION!
 
 for name_i = 1:length(wpms.names)
-    conditions = {'nocue','double'};
+    conditions = {'incongruent','congruent','nocue','double','center','updown'};
     %cond = {'target','non-target'};
     
-    condition_code_values.nocue  = 1;
-    condition_code_values.double = 2;
+    condition_code_values.incongruent  = 1;
+    condition_code_values.congruent = 2;
      
+    condition_code_values.nocue  = 3;
+    condition_code_values.double = 4;
+    
+    condition_code_values.center  = 5;
+    condition_code_values.updown = 6;
   
     %baseline is from -200 to 0 (stimuli)
     

@@ -16,16 +16,16 @@ fprintf('%s %s %s \n','----- Begin Trial Definition -----','Participant:',wpms.n
 
 
 
-value1      = [find(strcmp('wnou', {cfg.event.value}))]'% find trials with trigger value for "no cue"
-value2      = [find(strcmp('wnod', {cfg.event.value}))]'
-value3      = [find(strcmp('wdou', {cfg.event.value}))]'% find trials with trigger value for "double"
-value4      = [find(strcmp('wdud', {cfg.event.value}))]'
+value1      = [find(strcmp('wceu', {cfg.event.value}))]'% find trials with trigger value for "center"
+value2      = [find(strcmp('wced', {cfg.event.value}))]'
+value3      = [find(strcmp('wupu', {cfg.event.value}))]'% find trials with trigger value for "up & down"
+value4      = [find(strcmp('wdwd', {cfg.event.value}))]'
 value      = vertcat(value1, value2, value3, value4) %combine 
 
-sample1     = [cfg.event(find(strcmp('wnou', {cfg.event.value}))).sample]'; %get samples for both conditions
-sample2     = [cfg.event(find(strcmp('wnod', {cfg.event.value}))).sample]';
-sample3     = [cfg.event(find(strcmp('wdou', {cfg.event.value}))).sample]'; %get samples for both conditions
-sample4     = [cfg.event(find(strcmp('wdud', {cfg.event.value}))).sample]';
+sample1     = [cfg.event(find(strcmp('wceu', {cfg.event.value}))).sample]'; %get samples for both conditions
+sample2     = [cfg.event(find(strcmp('wced', {cfg.event.value}))).sample]';
+sample3     = [cfg.event(find(strcmp('wupu', {cfg.event.value}))).sample]'; %get samples for both conditions
+sample4     = [cfg.event(find(strcmp('wdwd', {cfg.event.value}))).sample]';
 sample      =  vertcat(sample1, sample2, sample3, sample4)  %combine 
 
 
@@ -34,16 +34,16 @@ info = cfg.event(value) %get trial info for both conditions
 % make trial.info - 1 = first marker "wnou" 2 = second marker "wnod"
 
  value_marker1 = value1
- value_marker1(:,1) = 1 
+ value_marker1(:,1) = 3 
  
   value_marker2 = value2
-  value_marker2(:,1) = 1
+  value_marker2(:,1) = 3
   
  value_marker3 = value3
- value_marker3(:,1) = 2 
+ value_marker3(:,1) = 4 
  
   value_marker4 = value4
-  value_marker4(:,1) = 2
+  value_marker4(:,1) = 4
  
  value_marker     = vertcat(value_marker1, value_marker2, value_marker3, value_marker4) 
    
