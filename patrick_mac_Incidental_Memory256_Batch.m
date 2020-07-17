@@ -342,27 +342,57 @@ for name_i = 1:length(wpms.names)
     patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir,conditions,condition)
     close all
 end
-%% Make Grand Average ERP!
+%% TIMELOCK statistics
+% define the parameters for the statistical comparison
+%     condition = '_Alerting'
+%     condition = '_Orienting'
+     condition = '_Executive'
+    conditions = {'1','2'};
+    %cond = {'target','non-target'};
+
+
+
+
+
+cfg = [];
+cfg.channel     = 'MLT12';
+cfg.latency     = [0.3 0.7];
+cfg.avgovertime = 'yes';
+cfg.parameter   = 'avg';
+cfg.method      = 'analytic';
+cfg.statistic   = 'ft_statfun_depsamplesT';
+cfg.alpha       = 0.05;
+cfg.correctm    = 'no';
+
+Nsub = 10;
+cfg.design(1,1:2*Nsub)  = [ones(1,Nsub) 2*ones(1,Nsub)];
+cfg.design(2,1:2*Nsub)  = [1:Nsub 1:Nsub];
+cfg.ivar                = 1; % the 1st row in cfg.design contains the independent variable
+cfg.uvar                = 2; % the 2nd row in cfg.design contains the subject number
+
+stat = ft_timelockstatistics(cfg, allsubjFIC{:}, allsubjFC{:});   % don't forget the {:}!
+
+
+
+
+
+
+
+
+%% Compute/plot Grand Average ERP!
 
 %      condition.name = '_Executive'
-%      conditions.erp = {'incongruent','congruent','diff'}; 
+%      conditions.erp = {'incongruent','congruent','diff'};
 
-    condition.name = '_Alerting'
-      condition.erp = {'nocue','double','diff'};
+% condition.name = '_Alerting'
+% condition.erp = {'nocue','double','diff'};
 
-  
-%     condition.name = '_Orienting'
-%     condition.erp = {'center','updown','diff'}   
-   
-    %channel = 30;
-    patrick_plot_Grand_Average(wpms,name_i,condition)
+condition.name = '_Orienting'
+condition.erp = {'center','updown','diff'}
 
+channel = 'all';
 
- 
-
-condition.erp{1,1} = name_i 
-
-
+patrick_plot_Grand_Average(wpms,name_i,condition,channel)
 
 
 

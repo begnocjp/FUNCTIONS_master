@@ -342,30 +342,21 @@ for name_i = 1:length(wpms.names)
     patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir,conditions,condition)
     close all
 end
-%% Make Grand Average ERP!
+%% Compute/plot Grand Average ERP!
 
 %      condition.name = '_Executive'
-%      conditions.erp = {'incongruent','congruent','diff'}; 
+%      conditions.erp = {'incongruent','congruent','diff'};
 
-    condition.name = '_Alerting'
-    conditions.erp = {'nocue','double','diff'};
+% condition.name = '_Alerting'
+% condition.erp = {'nocue','double','diff'};
 
-%     condition.name = '_Orienting'
-%     condition.erp = {'center','updown','diff'}   
-    
- 
-    
-    isreverse_ydir = true; %true or false
-    %channel = 30;
-    patrick_plot_Grand_Average(wpms,name_i,isreverse_ydir,conditions,condition)
+condition.name = '_Orienting'
+condition.erp = {'center','updown','diff'}
 
+channel = 'all';
 
- 
+patrick_plot_Grand_Average(wpms,name_i,condition,channel)
 
-
-
-
-
-
+%%
 
 
