@@ -10,9 +10,9 @@
 %
 %  Patrick Cooper & Aaron Wong, 2014
 %  Functional Neuroimaging Laboratory, University of Newcastle
-function ccm256_reinterpolate(wpms,name_i)
+function ccm256_reinterpolate(wpms,name_i,condition)
 fprintf('Loading: %s%s \n',wpms.names{name_i},'''s data');
-load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA']);%csd data
+load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA' condition]);%csd data
 load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_badchannellist']);%badchannel list
 %Generating Full Array:
 %load original montage - Labels
@@ -77,6 +77,6 @@ fprintf('. \n');
 interp = ft_channelrepair(cfg, temp);
 interp.sampleinfo = temp.sampleinfo;
 refdat = interp;
-save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED'],'refdat','-v7.3')
+save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED' condition],'refdat','-v7.3')
 clear data channel badchann data interp lay neighbours w temp% tidying
 end

@@ -1,16 +1,16 @@
-function patrick_plot_Grand_Average(wpms,name_i,channel,isreverse_ydir,conditions,caption)
+function patrick_plot_Grand_Average(wpms,name_i,isreverse_ydir,conditions,caption,condition)
 
 
 %load all subjects
 
 for name_i = 1:length(wpms.names)
-load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat']);
+load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition '.mat']);
 end
  
 %make Grand Average a
 
 cfg = [];
-   cfg.channel        = channel
+   %cfg.channel        = channel      %can toggle to select single/ groups of channels
    %cfg.latency        = [begin end] in seconds or 'all' (default = 'all')
    %cfg.normalizevar   = 'N' or 'N-1' (default = 'N-1')
    cfg.method         = 'across' %(default) or 'within', see below.
@@ -19,9 +19,9 @@ cfg = [];
                        % 'avg', if it is present in the data
                     
                        
- %compute GA for No Cue
+ %compute GA for trial type 1
  
-      Alert_grandavg{1} = ft_timelockgrandaverage(cfg, ...
+      grandavg{1} = ft_timelockgrandaverage(cfg, ...
        load_subs{1,1}.timelock(1), ...
        load_subs{1,2}.timelock(1), ...
        load_subs{1,3}.timelock(1), ...
@@ -29,9 +29,9 @@ cfg = [];
        load_subs{1,5}.timelock(1), ...
        load_subs{1,6}.timelock(1))
 
- %compute GA for Double
+ %compute GA for trial type 2
  
-      Alert_grandavg{2} = ft_timelockgrandaverage(cfg, ...
+      grandavg{2} = ft_timelockgrandaverage(cfg, ...
        load_subs{1,1}.timelock(2), ...
        load_subs{1,2}.timelock(2), ...
        load_subs{1,3}.timelock(2), ...
@@ -41,7 +41,7 @@ cfg = [];
 
  %compute GA for DIFF
 
-      Alert_grandavg{3} = ft_timelockgrandaverage(cfg, ...
+      grandavg{3} = ft_timelockgrandaverage(cfg, ...
        load_subs{1,1}.timelock(3), ...
        load_subs{1,2}.timelock(3), ...
        load_subs{1,3}.timelock(3), ...
@@ -49,19 +49,41 @@ cfg = [];
        load_subs{1,5}.timelock(3), ...
        load_subs{1,6}.timelock(3))
 
+for cond_i = 1:length(conditions)
+VAR = conditions{cond_i}
+VAR = genvarname(VAR)
+VAR = grandavg{1,cond_i};     
+end
    
-   %plot Grand Average
 
 
+
+ save([wpms.dirs.CWD wpms.dirs.TIMELOCK 'GRANDAVERAGE' condition '.mat'],'grandavg','-v7.3');
+   
+
+cfg = [];
+cfg.showlabels    = 'yes';
+cfg.fontsize      = 6;
+cfg.layout        = '/Users/patrick/Desktop/EEG/FUNCTIONS/GSN-HydroCel-256.sfp';
+%cfg.ylim = [-3e-13 3e-13];
+
+ft_multiplotER(cfg, incongruent,grandavg{1,2},grandavg{1,3});
+ 
+incongruent = grandavg{1,1}
+ 
+ 
+ 
+ 
+ 
 
     condition_names = conditions;  
     figure();
     hold on; 
-    colours = [{'-b'}; {'-g'}; {'-r'}; {'-c'};{'-m'};{'-k'};{'-y'}];
+    colours = [{'-b'}; {'-r'}; {'-g'}; {'-c'};{'-m'};{'-k'};{'-y'}];
     
     for plot_i = 1:length(condition_names)
         condition_name = condition_names{1,plot_i};
-        plot(Alert_grandavg{1,plot_i}.time,Alert_grandavg{1,plot_i}.avg,colours{plot_i});
+        plot(grandavg{1,plot_i}.time,grandavg{1,plot_i}.avg,colours{plot_i});
         
         %tokenise and rejoin data for legend:
         str_cells_no_underscore = condition_names;

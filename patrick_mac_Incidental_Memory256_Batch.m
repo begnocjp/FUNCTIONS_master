@@ -14,8 +14,7 @@ wpms.dirs  = struct('CWD','/Users/patrick/Desktop/EEG/','packages','PACKAGES', .
     'COHERENCE_DIR','IMAGCOH_OUTPUT/','EEGDispOutput','EEGDISPLAY_OUTPUT/', ...
     'TIMELOCK','TIMELOCK/','GA_TIMELOCK','GA_TIMELOCK/');
 
-
-wpms.names = {'1101_ant_002';'1102_ant_002';'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002';}
+wpms.names = {'1101_ant_002';'1102_ant_002';'1103_ant_002';'1104_ant_002';'1105_ant_002';'1106_ant_002'}
 % '1102_mem_002','1103_mem_002','1104_mem_002','1105_mem_002','1106_mem_002'};
 % wpms.names = {'1101_ant_002','1102_ant_002','1103_ant_002','1104_ant_002','1105_ant_002','1106_ant_002'};
 
@@ -28,7 +27,6 @@ addpath(genpath(['/Users/patrick/Desktop/eeglab2019_1']))
 %addpath(genpath(['/Users/patrick/Desktop/eeglab12_0_2_6b']))
 ft_defaults
 %addpath(genpath([wpms.dirs.CWD,wpms.dirs.packages '\fieldtrip']));
-
 %% Preprocessing I
 %  Import, downsample and re-reference
 for name_i = 1:length(wpms.names)
@@ -86,19 +84,19 @@ end
 %     clear post_trial pre_trial trialfunction
 %     %patrick_ccm_ICA(wpms,name_i,trdat);        
 % end
-%% Trial Definition ONLY : All_collapse
-%%%changed pre and post trial times - 
-for name_i = 1%:length(wpms.names)   
-    pre_trial = ; %for target 1 sec on each side, for cue 
-    post_trial = .5;
-    trialfunction = 'patrick_All_collapse'; %will need to change per task, each task has trial function, will need to edit function for ANT task
-    file_ext = 'raw';
-    trdat = patrick_All_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
-    clear post_trial pre_trial trialfunction
-    clear sample*
-    clear value*
-    %patrick_ccm_ICA(wpms,name_i,trdat);        
-end
+% %% Trial Definition ONLY : All_collapse
+% %%%changed pre and post trial times - 
+% for name_i = 1%:length(wpms.names)   
+%     pre_trial = .5; %for target 1 sec on each side, for cue 
+%     post_trial = .5;
+%     trialfunction = 'patrick_All_collapse'; %will need to change per task, each task has trial function, will need to edit function for ANT task
+%     file_ext = 'raw';
+%     trdat = patrick_All_collapse(wpms,name_i,trialfunction,pre_trial,post_trial,file_ext);
+%     clear post_trial pre_trial trialfunction
+%     clear sample*
+%     clear value*
+%     %patrick_ccm_ICA(wpms,name_i,trdat);        
+% end
 %% Trial Definition ONLY : Alerting_collapse
 %%%changed pre and post trial times - 
 for name_i = 1:length(wpms.names)   
@@ -165,15 +163,21 @@ end
 %for name_i = length(wpms.names)
 %    ccm256_ICA_inspection(wpms,name_i);
 %end 
-%% Apply artifact rejection 
+%% Apply artifact rejection %toggle which condition to use
 %patrick b changed "true" to "1"
-for name_i = 1%:length(wpms.names)
-    patrick_ccm_artifact_rejection_auto_v2(wpms,name_i,1,50,-100,100)
+for name_i = 1:length(wpms.names)
+%     condition = '_Alerting'
+%     condition = '_Orienting'
+     condition = '_Executive'
+    patrick_ccm_artifact_rejection_auto_v2(wpms,name_i,1,50,-100,100,condition)
 end
 
-%% Reinterpolate bad channels
-for name_i = 1:length(wpms.names)
-    ccm256_reinterpolate(wpms,name_i);
+%% Reinterpolate bad channels %toggle which condition to use
+for name_i = 1:length(wpms.names) 
+%     condition = '_Alerting'
+%     condition = '_Orienting'
+     condition = '_Executive'
+    ccm256_reinterpolate(wpms,name_i,condition);
 end
 
 
@@ -299,49 +303,63 @@ end
 %     patrick_ccm_saveOffIndividualConditions_to_ERP(wpms,wpms.conditions,wpms.cond,wpms.condition_code_values,name_i);
 % end
 
-%% PRODUCE TIMELOCK ERP - Not for Coherency analysis
+%% PRODUCE TIMELOCK ERP - Not for Coherency analysis %toggle which condition to use
 % START AFTER REINTERPOLATION!
 
 for name_i = 1:length(wpms.names)
-    conditions = {'incongruent','congruent','nocue','double','center','updown'};
+%     condition = '_Alerting'
+%     condition = '_Orienting'
+     condition = '_Executive'
+    conditions = {'1','2'};
     %cond = {'target','non-target'};
-    
-    condition_code_values.incongruent  = 1;
-    condition_code_values.congruent = 2;
-     
-    condition_code_values.nocue  = 3;
-    condition_code_values.double = 4;
-    
-    condition_code_values.center  = 5;
-    condition_code_values.updown = 6;
-  
+
     %baseline is from -200 to 0 (stimuli)
     
 %     baseline_start =  floor(sampling_frequency*0.8); % used for baseline correcetion of trials before ERP calculation 
 %     baseline_end =     floor(sampling_frequency*1.0);
 %     for i = 1:length(conditions)
-        patrick_fnl_timelockanalysis(wpms,name_i,conditions);
+        patrick_fnl_timelockanalysis(wpms,name_i,conditions,condition);
         %timelock = patrick_fnl_timelockanalysis_v2(wpms,name_i,conditions{cond_i},baseline_start,baseline_end);
 %     end;
     %save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock*','-v7.3');
     %clear timelock*
 end
 
-%% Draw TIMELOCK ERP:
+%% Draw TIMELOCK ERP:   %toggle which condition to use
 close all;
 for name_i = 1:length(wpms.names)
     isreverse_ydir = true; %true or false
-    conditions = {'nocue','double','diff'};
+%     condition = '_Alerting'
+%     conditions = {'nocue','double','diff'};
+
+%     condition = '_Orienting'
+%     conditions = {'center','updown','diff'};
+
+%     condition = '_Executive'
+%     conditions = {'incongruent','congruent','diff'};
+
     channel = 30;
-    patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir,conditions)
+    patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir,conditions,condition)
+    close all
 end
 %% Make Grand Average ERP!
 
-    caption = 'AlertGrandAverage'
-    conditions = {'nocue','double','diff'};
+%     condition = '_Alerting'
+%     conditions = {'nocue','double','diff'};
+
+%     condition = '_Orienting'
+%     conditions = {'center','updown','diff'};
+
+
+
+     condition = '_Executive'
+     conditions = {'incongruent','congruent','diff'};    
+
+    caption = [condition 'GrandAverage']
+    
     isreverse_ydir = true; %true or false
-    channel = 30;
-    patrick_plot_Grand_Average(wpms,name_i,channel,isreverse_ydir,conditions,caption)
+    %channel = 30;
+    patrick_plot_Grand_Average(wpms,name_i,isreverse_ydir,conditions,caption,condition)
 
 
  

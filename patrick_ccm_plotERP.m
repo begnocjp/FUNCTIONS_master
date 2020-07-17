@@ -1,6 +1,6 @@
-function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
+function ccm_plotERP(wpms,name_i,channel,reverse, conditions,condition)
     
-    DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat']);
+    DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition '.mat']);
     condition_names = conditions;
    % DATA = DATA.timelock;
    % DATA = DATA.timelock_erp;
@@ -61,11 +61,11 @@ function ccm_plotERP(wpms,name_i,channel,reverse, conditions)
         set(gca,'YDir','normal');
     end
     eval(['legend(',legend_details,'''Location'',''SouthWest'');']);
-    title([removed_underscore,'Channel: ',num2str(channel),' TIMELOCK ERP']);
+    title([removed_underscore,'Channel: ',num2str(channel),' TIMELOCK ERP' condition]);
     mkdir([wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i}])
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP']);
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP'],'bmp');
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP','.eps'],'psc2');
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP' condition]);
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP' condition],'bmp');
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP' condition,'.eps'],'psc2');
     
     %clear time;
     %save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK'],'timelock*','-v7.3');

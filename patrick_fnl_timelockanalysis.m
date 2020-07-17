@@ -1,11 +1,11 @@
-function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions)
+function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions, condition)
 
 
     fprintf('---- Time Lock Analysis on: %s ----\n', wpms.names{name_i});
     
     %DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} %'_CSD_' condition '.mat']); %for CSD data
     %DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat' '.mat']); % use repaired and rereferenced? 
-    DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED'])
+    DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED' condition])
     a = fieldnames(DATA);
     a = a{1,1};
 
@@ -54,7 +54,7 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions)
         timelock(3).dimord = AlertDiff.dimord
         timelock(3).cfg = AlertDiff.cfg
       
-    save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK.mat'],'timelock','-v7.3');
+    save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition '.mat'],'timelock','-v7.3');
    %find(ismember(DATA.refdat.trialinfo,1))
 
 end

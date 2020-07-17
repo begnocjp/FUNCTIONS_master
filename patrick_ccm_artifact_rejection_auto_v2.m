@@ -23,9 +23,8 @@
 %
 %  Patrick Cooper & Aaron Wong, 2014
 %  Functional Neuroimaging Laboratory, University of Newcastle
-function patrick_ccm_artifact_rejection_auto(wpms,name_i,lpfilter,lpfreq,min,max)
-fprintf('%s\t%s\n','Working on:',wpms.names{name_i});
-load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat']);
+function patrick_ccm_artifact_rejection_auto(wpms,name_i,lpfilter,lpfreq,min,max,condition)
+load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat' condition]);
 cfg = [];
 if lpfilter == 1;
     cfg.lpfilter    = 'yes';
@@ -68,8 +67,8 @@ fprintf(fileid,'%s\t%i\t%3.1f',wpms.names{name_i},nt,npt);
 fprintf(fileid,'\r\n');
 fclose(fileid); 
 [data] = ft_rejectartifact(cfg, eogcorr); %changed from eogcorr to trdat 
-clear eogcorr artifact nt npt ans
+%clear eogcorr artifact nt npt ans
 close all
-save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA'],'data','-v7.3');
-clear artrej eogcorr artifact cfg data %tidying
+save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA' condition],'data','-v7.3');
+%clear artrej eogcorr artifact cfg data %tidying
 end

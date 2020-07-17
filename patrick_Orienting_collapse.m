@@ -34,16 +34,16 @@ info = cfg.event(value) %get trial info for both conditions
 % make trial.info - 1 = first marker "wnou" 2 = second marker "wnod"
 
  value_marker1 = value1
- value_marker1(:,1) = 3 
+ value_marker1(:,1) = 1 
  
   value_marker2 = value2
-  value_marker2(:,1) = 3
+  value_marker2(:,1) = 1
   
  value_marker3 = value3
- value_marker3(:,1) = 4 
+ value_marker3(:,1) = 2 
  
   value_marker4 = value4
-  value_marker4(:,1) = 4
+  value_marker4(:,1) = 2
  
  value_marker     = vertcat(value_marker1, value_marker2, value_marker3, value_marker4) 
    
@@ -71,7 +71,7 @@ cfg.trl = [trlbegin trlend offset]; % concatenate the columns into the trl matri
 
    % trdat.trialinfo_markers  =  trdat.trialinfo
    % trdat.trialinfo  =  str2double(trdat.trialinfo) %convert trial info to NaN double for auto 
-    save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat'],'trdat','-v7.3'); % added this into to save trial data for auto artifact rejeciton 
+    save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat_Orienting'],'trdat','-v7.3'); % added this into to save trial data for auto artifact rejeciton 
     %clear data tdat%tidying
 end
 %load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_EOGCORR_trdat'])
