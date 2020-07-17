@@ -348,19 +348,21 @@ end
 %      conditions.erp = {'incongruent','congruent','diff'}; 
 
     condition.name = '_Alerting'
-      condition.erp = {'nocue','double','diff'};
+    conditions.erp = {'nocue','double','diff'};
 
-  
 %     condition.name = '_Orienting'
 %     condition.erp = {'center','updown','diff'}   
-   
+    
+ 
+    
+    isreverse_ydir = true; %true or false
     %channel = 30;
-    patrick_plot_Grand_Average(wpms,name_i,condition)
+    patrick_plot_Grand_Average(wpms,name_i,isreverse_ydir,conditions,condition)
 
 
  
 
-condition.erp{1,1} = name_i 
+
 
 
 

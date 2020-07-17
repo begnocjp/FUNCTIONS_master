@@ -73,13 +73,13 @@ elseif 1 == strcmp(condition.name,'_Alerting')
     double     = grandavg{2}
     diff       = grandavg{3}
 elseif 1 == strcmp(condition.name,'_Orienting')
-    center    = grandavg{1}
-    updown    = grandavg{2}
-    diff      = grandavg{3}
+        center    = grandavg{1}
+        updown    = grandavg{2}
+        diff      = grandavg{3}
 end
  
  save([wpms.dirs.CWD wpms.dirs.TIMELOCK 'GRANDAVERAGE' condition.name '.mat'],'grandavg','-v7.3');
-
+   'one' == 'one'
 
 cfg = [];
 cfg.showlabels    = 'yes';
@@ -87,16 +87,16 @@ cfg.fontsize      = 6;
 cfg.layout        = '/Users/patrick/Desktop/EEG/FUNCTIONS/GSN-HydroCel-256.sfp';
 %cfg.ylim = [-3e-13 3e-13];
 
-if 1 == strcmp(condition.name,'_Executive')
+ if 1 == strcmp(condition.name,'_Executive')
     ft_multiplotER(cfg, incongruent,congruent,diff);
-    
-elseif 1 == strcmp(condition.name,'_Alerting')
+
+elseif 1 == strcmp(condition.name,'_Alert')
     ft_multiplotER(cfg, nocue,double,diff);
-    
+
 elseif 1 == strcmp(condition.name,'_Orienting')
-    ft_multiplotER(cfg, center,updown,diff);
-    
-end
+        ft_multiplotER(cfg, center,updown,diff);
+
+    end 
 
 % if condition == '_Executive'
 %     ft_multiplotER(cfg, Grandavg.exec.incongruent,Grandavg.exec.congruent,Grandavg.exec.diff);
