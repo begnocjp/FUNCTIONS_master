@@ -169,15 +169,24 @@ for name_i = 1:length(wpms.names)
 %     condition = '_Alerting'
 %     condition = '_Orienting'
      condition = '_Executive'
-    patrick_ccm_artifact_rejection_auto_v2(wpms,name_i,1,50,-100,100,condition)
+    patrick_ccm_artifact_rejection_auto(wpms,name_i,1,50,-100,100,condition)
 end
+
+%% Manual inspection/ artifact rejection of EEG data (manual rejection of artifacts
+for name_i = 1:length(wpms.names)
+%     condition = '_Alerting'
+%     condition = '_Orienting'
+     condition = '_Executive'
+    patrick_ccm_artifact_rejection_manual(wpms,name_i,condition)
+end
+
 
 %% Reinterpolate bad channels %toggle which condition to use
 for name_i = 1:length(wpms.names) 
 %     condition = '_Alerting'
 %     condition = '_Orienting'
      condition = '_Executive'
-    ccm256_reinterpolate(wpms,name_i,condition);
+    patrick_ccm256_reinterpolate(wpms,name_i,condition);
 end
 
 
@@ -381,14 +390,14 @@ stat = ft_timelockstatistics(cfg, allsubjFIC{:}, allsubjFC{:});   % don't forget
 
 %% Compute/plot Grand Average ERP!
 
-%      condition.name = '_Executive'
-%      conditions.erp = {'incongruent','congruent','diff'};
+ condition.name = '_Executive'
+ conditions.erp = {'incongruent','congruent','diff'};
 
 % condition.name = '_Alerting'
 % condition.erp = {'nocue','double','diff'};
 
-condition.name = '_Orienting'
-condition.erp = {'center','updown','diff'}
+% condition.name = '_Orienting'
+% condition.erp = {'center','updown','diff'}
 
 channel = 'all';
 
