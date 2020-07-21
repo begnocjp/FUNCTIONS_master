@@ -4,7 +4,7 @@ load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA' conditio
 
 
 cfg = [];
- cfg.method      = 'summary'
+ cfg.method      = 'channel'
 %                     'summary'  show a single number for each channel and trial (default)
 %                     'channel'  show the data per channel, all trials at once
 %                     'trial'    show the data per trial, all channels at once
