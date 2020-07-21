@@ -17,10 +17,11 @@ EEG.chanlocs = Chan.chanlocs
 EEG.chanlocs(1:3) = []
 
 
-%perform channel rejection
+%perform channel rejection, if you adjust the threshold here also make same
+%adjustment to auto ICA removal 
 
 [EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...
-    'threshold',5,'norm','on','measure','kurt');
+    'threshold',4,'norm','on','measure','kurt');
 
 
 %create good channel list for removal to visualize remaining bad channels
