@@ -1,0 +1,111 @@
+function patrick_compute_avg_ERP_peak(wpms,name_i,condition,channel)
+
+
+%load all subjects
+for name_i = 1:length(wpms.names)
+    load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' '_Alerting' '.mat']);
+end
+
+% channels used in average
+% frontal = E22,E14,E23,E15,E6,E16,E7
+% central = E9,E186,E45,E132,E81,E80,E131
+% parietal = E100,E129,E101,E110,E128,E119
+
+%N2 averaege latency 180ms to 220ms
+
+%      condition = '_Alerting'
+%      conditions = {'nocue','double','diff'};
+
+for name_i = 1:length(wpms.names)
+
+ERP.N2.Alerting_nocue_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,171:1:181)))
+ERP.N2.Alerting_nocue_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,171:1:181)))
+ERP.N2.Alerting_nocue_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg([100,129,101,110,128,119],171:1:181)))
+
+ERP.N2.Alerting_double_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,171:1:181)))
+ERP.N2.Alerting_double_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,171:1:181)))
+ERP.N2.Alerting_double_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg([100,129,101,110,128,119],171:1:181)))
+
+%P3 averaege latency 280ms to 320ms
+
+ERP.P3.Alerting_nocue_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,196:1:206)))
+ERP.P3.Alerting_nocue_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,196:1:206)))
+ERP.P3.Alerting_nocue_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg([100,129,101,110,128,119],196:1:206)))
+
+ERP.P3.Alerting_double_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,196:1:206)))
+ERP.P3.Alerting_double_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,196:1:206)))
+ERP.P3.Alerting_double_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg([100,129,101,110,128,119],196:1:206)))
+
+end
+
+clear('load_subs')
+
+% condition.name = '_Orienting'
+% condition.erp = {'center','updown','diff'}
+
+for name_i = 1:length(wpms.names)
+    load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' '_Orienting' '.mat']);
+end
+
+
+for name_i = 1:length(wpms.names)
+
+ERP.N2.Orienting_center_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,171:1:181)))
+ERP.N2.Orienting_center_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,171:1:181)))
+ERP.N2.Orienting_center_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg([100,129,101,110,128,119],171:1:181)))
+
+ERP.N2.Orienting_updown_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,171:1:181)))
+ERP.N2.Orienting_updown_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,171:1:181)))
+ERP.N2.Orienting_updown_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg([100,129,101,110,128,119],171:1:181)))
+
+%P3 averaege latency 280ms to 320ms
+
+ERP.P3.Orienting_center_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,196:1:206)))
+ERP.P3.Orienting_center_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,196:1:206)))
+ERP.P3.Orienting_center_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg([100,129,101,110,128,119],196:1:206)))
+
+ERP.P3.Orienting_updown_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,196:1:206)))
+ERP.P3.Orienting_updown_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,196:1:206)))
+ERP.P3.Orienting_updown_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg([100,129,101,110,128,119],196:1:206)))
+
+end
+
+clear('load_subs')
+
+% condition.name = '_Executive'
+% conditions.erp = {'incongruent','congruent','diff'};
+
+for name_i = 1:length(wpms.names)
+    load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' '_Executive' '.mat']);
+end
+
+
+for name_i = 1:length(wpms.names)
+
+ERP.N2.Executive_incongruent_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg([22,14,23,15,6,16,7],171:1:181)))
+ERP.N2.Executive_incongruent_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg([9,186,45,132,81,80,131],171:1:181)))
+ERP.N2.Executive_incongruent_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg([100,129,101,110,128,119],171:1:181)))
+
+ERP.N2.Executive_congruent_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg([22,14,23,15,6,16,7],171:1:181)))
+ERP.N2.Executive_congruent_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg([9,186,45,132,81,80,131],171:1:181)))
+ERP.N2.Executive_congruent_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg([100,129,101,110,128,119],171:1:181)))
+
+%P3 averaege latency 280ms to 320ms
+
+ERP.P3.Executive_incongruente_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg([22,14,23,15,6,16,7],196:1:206)))
+ERP.P3.Executive_incongruent_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg([9,186,45,132,81,80,131],196:1:206)))
+ERP.P3.Executive_incongruent_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg([100,129,101,110,128,119],196:1:206)))
+
+ERP.P3.Executive_congruent_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg([22,14,23,15,6,16,7],196:1:206)))
+ERP.P3.Executive_congruent_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg([9,186,45,132,81,80,131],196:1:206)))
+ERP.P3.Executive_congruent_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg([100,129,101,110,128,119],196:1:206)))
+
+end
+
+clear('load_subs')
+
+%     condition = '_Orienting'
+%     conditions = {'center','updown','diff'};
+
+%     condition = '_Executive'
+%     conditions = {'incongruent','congruent','diff'};

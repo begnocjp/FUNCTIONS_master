@@ -417,26 +417,14 @@ patrick_plot_Grand_Average(wpms,name_i,condition)
 
 % condition.name = '_Executive'
 % conditions.erp = {'incongruent','congruent','diff'};
-
-%ERP Latency (trial portion used to computer average amplitude)
+%ERP Latency (time selection used to c
 P3_lat = 196:1:206
 N2_lat = 171:1:181
 
-%Channels used as ROIs
-front_chan = [22,14,23,15,6,16,7]
-cent_chan = [9,186,45,132,81,80,131]
-pari_chan = [100,129,101,110,128,119]
+Frontal  Channels = [22,14,23,15,6,16,7],171:1:181
+Central  Channels = [9,186,45,132,81,80,131],171:1:181
+Parietal Channels = [100,129,101,110,128,119],171:1:181
 
 
-patrick_compute_avg_ERP_peak(wpms,name_i,condition,channels)
-
-
-
-
-
-
-
-
-
-
+patrick_compute_avg_ERP_peak(wpms,name_i,condition,channel)
 

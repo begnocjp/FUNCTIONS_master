@@ -8,7 +8,7 @@ end
 
 %make Grand Average
 cfg = [];
-cfg.channel        = channel   %can toggle to select single/ groups of channels
+%cfg.channel        = channel   %can toggle to select single/ groups of channels
 %cfg.latency        = [begin end] in seconds or 'all' (default = 'all')
 %cfg.normalizevar   = 'N' or 'N-1' (default = 'N-1')
 cfg.method         = 'across' %(default) or 'within', see below.

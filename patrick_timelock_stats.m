@@ -9,8 +9,8 @@ end
 
 % define the parameters for the statistical comparison
 cfg = [];
-cfg.channel     = 240;
-cfg.latency     = [0.1 5];
+cfg.channel     = [22,14,23,15,6,16,7];
+cfg.latency     = [0.1 0.3];
 cfg.avgovertime = 'yes';
 cfg.parameter   = 'avg';
 cfg.method      = 'analytic';
@@ -24,9 +24,9 @@ cfg.design(2,1:2*Nsub)  = [1:Nsub 1:Nsub];
 cfg.ivar                = 1; % the 1st row in cfg.design contains the independent variable
 cfg.uvar                = 2; % the 2nd row in cfg.design contains the subject number
 
-stat = ft_timelockstatistics(cfg, load_subs{1:1}.timelock(1), load_subs{1,2}.timelock(1),...
-load_subs{1,3}.timelock(1),load_subs{1,4}.timelock(1),load_subs{1,5}.timelock(1), ...
-load_subs{1,6}.timelock(1), ...  
-load_subs{1:1}.timelock(2), load_subs{1,2}.timelock(2), ...
-load_subs{1,3}.timelock(2), load_subs{1,4}.timelock(2),load_subs{1,5}.timelock(2), ...
-load_subs{1,6}.timelock(2))
+stat = ft_timelockstatistics(cfg,load_subs{1:1}.timelock(1),load_subs{1,2}.timelock(1), ... %first condition
+load_subs{1,3}.timelock(1),load_subs{1,4}.timelock(1), ...
+load_subs{1,5}.timelock(1),load_subs{1,6}.timelock(1), ...
+load_subs{1:1}.timelock(2),load_subs{1,2}.timelock(2), ... %second condition
+load_subs{1,3}.timelock(2),load_subs{1,4}.timelock(2), ...
+load_subs{1,5}.timelock(2),load_subs{1,6}.timelock(2))
