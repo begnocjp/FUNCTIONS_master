@@ -1,4 +1,4 @@
-function patrick_compute_avg_ERP_peak(wpms,name_i,condition,channel)
+function patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan)
 
 
 %load all subjects
@@ -11,7 +11,9 @@ end
 % central = E9,E186,E45,E132,E81,E80,E131
 % parietal = E100,E129,E101,E110,E128,E119
 
-%N2 averaege latency 180ms to 220ms
+%N2 averaege latency 180ms to 220ms (divide ms by 4 for this data collected
+%at 250Hz, e.g. for 680ms into trial, 680/4 = 170, so start at sample 170)
+
 
 %      condition = '_Alerting'
 %      conditions = {'nocue','double','diff'};
