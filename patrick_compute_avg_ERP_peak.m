@@ -1,4 +1,4 @@
-function patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan)
+function patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan,occip_chan)
 
 
 %load all subjects
@@ -19,7 +19,7 @@ end
 %      conditions = {'nocue','double','diff'};
 
 for name_i = 1:length(wpms.names)
-
+    
 ERP.N2.Alerting_nocue_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,N2_lat)))
 ERP.N2.Alerting_nocue_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,N2_lat)))
 ERP.N2.Alerting_nocue_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,N2_lat)))
@@ -28,7 +28,7 @@ ERP.N2.Alerting_double_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelo
 ERP.N2.Alerting_double_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,N2_lat)))
 ERP.N2.Alerting_double_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,N2_lat)))
 
-%P3 averaege latency 280ms to 320ms
+%P3  latency 280ms to 320ms
 
 ERP.P3.Alerting_nocue_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)))
 ERP.P3.Alerting_nocue_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)))
@@ -37,6 +37,18 @@ ERP.P3.Alerting_nocue_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelo
 ERP.P3.Alerting_double_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)))
 ERP.P3.Alerting_double_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)))
 ERP.P3.Alerting_double_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)))
+
+%P1  latency 0ms to 200ms
+
+ERP.P1.Alerting_nocue_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)))
+ERP.P1.Alerting_nocue_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)))
+ERP.P1.Alerting_nocue_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)))
+ERP.P1.Alerting_nocue_occip(name_i,1)     = mean(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)))
+
+ERP.P1.Alerting_double_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)))
+ERP.P1.Alerting_double_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)))
+ERP.P1.Alerting_double_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)))
+ERP.P1.Alerting_double_occip(name_i,1)    = mean(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)))
 
 end
 
@@ -70,6 +82,18 @@ ERP.P3.Orienting_updown_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timel
 ERP.P3.Orienting_updown_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)))
 ERP.P3.Orienting_updown_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)))
 
+%P1 averaege latency 0ms to 200ms
+
+ERP.P1.Orienting_center_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)))
+ERP.P1.Orienting_center_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)))
+ERP.P1.Orienting_center_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)))
+ERP.P1.Orienting_center_occip(name_i,1)     = mean(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)))
+
+ERP.P1.Orienting_updown_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)))
+ERP.P1.Orienting_updown_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)))
+ERP.P1.Orienting_updown_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)))
+ERP.P1.Orienting_updown_occip(name_i,1)    = mean(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)))
+
 end
 
 clear('load_subs')
@@ -102,9 +126,23 @@ ERP.P3.Executive_congruent_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.ti
 ERP.P3.Executive_congruent_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)))
 ERP.P3.Executive_congruent_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)))
 
+%P1 averaege latency 0ms to 200ms
+
+ERP.P1.Executive_incongruente_frontal(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)))
+ERP.P1.Executive_incongruent_central(name_i,1)   = mean(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)))
+ERP.P1.Executive_incongruent_parietal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)))
+ERP.P1.Executive_incongruent_occip(name_i,1)     = mean(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)))
+
+ERP.P1.Executive_congruent_frontal(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)))
+ERP.P1.Executive_congruent_central(name_i,1)  = mean(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)))
+ERP.P1.Executive_congruent_parietal(name_i,1) = mean(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)))
+ERP.P1.Executive_congruent_occip(name_i,1)    = mean(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)))
+
 end
 
 clear('load_subs')
+
+
 
 %     condition = '_Orienting'
 %     conditions = {'center','updown','diff'};

@@ -419,21 +419,25 @@ patrick_plot_Grand_Average(wpms,name_i,condition)
 % conditions.erp = {'incongruent','congruent','diff'};
 
 %ERP Latency (samples of trial portion used to compute average amplitude)
-% P3_lat = 196:1:206
-% N2_lat = 171:1:181
+% P3_lat = 195:1:205
+% N2_lat = 170:1:180
 %wider range used for avg amplitude ERP calculation
 %N2 150ms to 300ms (650ms to 800ms accounting for 500ms baseline)(650/4 to 800/4)
 %P3 250 to 450 ms  (750ms to 950ms accounting for 500ms baseline)(750/4 to 950/4)
+%P1 0 to 200 ms
+
 N2_lat = [162:1:200]
 P3_lat = [187:1:238]
+P1_lat = [125:1:175]
 
 %Channels used as ROIs
 front_chan = [22,14,23,15,6,16,7];
 cent_chan  = [9,186,45,132,81,80,131];
 pari_chan  = [100,129,101,110,128,119];
+occip_chan  = [137,115,123,158,159];
 
 
-patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan)
+patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan,occip_chan)
 % 
 
 
