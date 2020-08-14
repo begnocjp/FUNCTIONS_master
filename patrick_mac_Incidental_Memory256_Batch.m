@@ -9,7 +9,7 @@ close all
 clear all
 %warning off;
 wpms.dirs  = struct('CWD','/Users/patrick/Desktop/EEG/','packages','PACKAGES', ...
-    'FUNCTIONS','FUNCTIONS/','RAW','RAW/','preproc','PREPROC_OUTPUT/', ...
+    'FUNCTIONS','FUNCTIONS/','RAW','RAW/','preproc','PREPROC_OUTPUT/', 'ERP','ERP/', ...
     'DATA_DIR','EEGLAB_FORMAT/','WAVELET_OUTPUT_DIR','WAVELET_OUTPUT_DIR/', ...
     'COHERENCE_DIR','IMAGCOH_OUTPUT/','EEGDispOutput','EEGDISPLAY_OUTPUT/', ...
     'TIMELOCK','TIMELOCK/','GA_TIMELOCK','GA_TIMELOCK/');
@@ -338,17 +338,27 @@ end
 close all;
 for name_i = 1:length(wpms.names)
     isreverse_ydir = true; %true or false
+
 %     condition = '_Alerting'
 %     conditions = {'nocue','double','diff'};
 
-%     condition = '_Orienting'
-%     conditions = {'center','updown','diff'};
+    condition = '_Orienting'
+    conditions = {'center','updown','diff'};
 
-     condition = '_Executive'
-     conditions = {'incongruent','congruent','diff'};
+%      condition = '_Executive'
+%      conditions = {'incongruent','congruent','diff'};
 
-    channel = 30;
-    patrick_ccm_plotERP(wpms,name_i,channel,isreverse_ydir,conditions,condition)
+     %Toggle channels used as ROIs
+% chan = [22,14,23,15,6,16,7];
+%       ROI  = 'frontal'
+% chan  = [9,186,45,132,81,80,131];
+%         ROI  = 'central'
+% chan  = [100,129,101,110,128,119];
+%       ROI  = 'parietal'
+chan  = [137,115,123,158,159];
+      ROI  = 'occipital'
+%     
+    patrick_ccm_plotERP_ROIs(wpms,name_i,isreverse_ydir,conditions,condition,ROI,chan)
     close all
 end
 %% TIMELOCK statistics
@@ -390,22 +400,29 @@ stat = ft_timelockstatistics(cfg, allsubjFIC{:}, allsubjFC{:});   % don't forget
 
 %% Plot Grand Average N2/P3 ERP 
 
-% condition.name = '_Alerting'
-% condition.erp = {'nocue','double','diff'};
+condition.name = '_Alerting'
+condition.erp = {'nocue','double','diff'};
 
-condition.name = '_Orienting'
-condition.erp = {'center','updown','diff'}
+% condition.name = '_Orienting'
+% condition.erp = {'center','updown','diff'}
 
 % 
 %  condition.name = '_Executive'
 %  conditions.erp = {'incongruent','congruent','diff'};
-
+% 
 
 
 patrick_plot_Grand_Average(wpms,name_i,condition)
 
 
 %% Compute peak latency N2/P3/P1 ERP values
+%ERP Latency (samples of trial portion used to compute average amplitude)
+% P3_lat = 195:1:205
+% N2_lat = 170:1:180
+%wider range used for avg amplitude ERP calculation
+%N2 150ms to 300ms (650ms to 800ms accounting for 500ms baseline)(650/4 to 800/4)
+%P3 250 to 450 ms  (750ms to 950ms accounting for 500ms baseline)(750/4 to 950/4)
+%P1 0 to 200 ms
 N2_lat = [162:1:200]
 P3_lat = [187:1:238]
 P1_lat = [125:1:175]
@@ -417,10 +434,8 @@ pari_chan  = [100,129,101,110,128,119];
 occip_chan  = [137,115,123,158,159];
 
 
-patrick_compute_ERP_latency_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan,occip_chan)
-
-
-
+patrick_compute_ERP_latency_peak(wpms,name_i,N2_lat,P3_lat,P1_lat,front_chan,cent_chan,pari_chan,occip_chan)
+%
 %% Compute/plot Average N2/P3/P1 ERP values
 
 %  condition.name = '_Alerting'
@@ -445,6 +460,8 @@ N2_lat = [162:1:200]
 P3_lat = [187:1:238]
 P1_lat = [125:1:175]
 
+N2_lat(1)
+
 %Channels used as ROIs
 front_chan = [22,14,23,15,6,16,7];
 cent_chan  = [9,186,45,132,81,80,131];
@@ -452,7 +469,7 @@ pari_chan  = [100,129,101,110,128,119];
 occip_chan  = [137,115,123,158,159];
 
 
-patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,front_chan,cent_chan,pari_chan,occip_chan)
+patrick_compute_avg_ERP_peak(wpms,name_i,N2_lat,P3_lat,P1_lat,front_chan,cent_chan,pari_chan,occip_chan)
 % 
 
 

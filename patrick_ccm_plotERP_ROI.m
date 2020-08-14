@@ -1,4 +1,4 @@
-function patrick_ccm_plotERP(wpms,name_i,channel,reverse, conditions,condition)
+function ccm_plotERP(wpms,name_i,channel,reverse, conditions,condition)
     
     DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition '.mat']);
     condition_names = conditions;

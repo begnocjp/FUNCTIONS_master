@@ -143,7 +143,9 @@ end
 clear('load_subs')
 
 
-
+ save([wpms.dirs.CWD wpms.dirs.ERP 'ERP_avg'], 'ERP');
+ 
+ 
 %     condition = '_Orienting'
 %     conditions = {'center','updown','diff'};
 

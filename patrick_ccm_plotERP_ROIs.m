@@ -1,4 +1,4 @@
-function patrick_ccm_plotERP(wpms,name_i,channel,reverse, conditions,condition)
+function patrick_ccm_plotERP_ROIs(wpms,name_i,reverse, conditions,condition,ROI,chan)
     
     DATA = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition '.mat']);
     condition_names = conditions;
@@ -20,7 +20,7 @@ function patrick_ccm_plotERP(wpms,name_i,channel,reverse, conditions,condition)
     
     for plot_i = 1:length(condition_names)
         condition_name = condition_names{1,plot_i};
-        plot(DATA.timelock(plot_i).time,DATA.timelock(plot_i).avg(channel,:),colours{plot_i});
+        plot(DATA.timelock(plot_i).time,DATA.timelock(plot_i).avg(ROI,:),colours{plot_i});
         
         %tokenise and rejoin data for legend:
         str_cells_no_underscore = condition_names;
@@ -61,11 +61,11 @@ function patrick_ccm_plotERP(wpms,name_i,channel,reverse, conditions,condition)
         set(gca,'YDir','normal');
     end
     eval(['legend(',legend_details,'''Location'',''SouthWest'');']);
-    title([removed_underscore,'Channel: ',num2str(channel),' TIMELOCK ERP' condition]);
+    title([removed_underscore,'Chan: ',ROI,' TIMELOCK ERP' condition]);
     mkdir([wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i}])
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP' condition]);
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP' condition],'bmp');
-    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' num2str(channel) '_TIMELOCK_ERP' condition,'.eps'],'psc2');
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' ROI '_TIMELOCK_ERP' condition]);
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' ROI '_TIMELOCK_ERP' condition],'bmp');
+    saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' ROI '_TIMELOCK_ERP' condition,'.eps'],'psc2');
     
     %clear time;
     %save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK'],'timelock*','-v7.3');
