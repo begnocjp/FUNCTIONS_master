@@ -11,7 +11,8 @@ end
 
 for name_i = 1:length(wpms.names)
 
-%N2
+%N2 
+%find the latency for "mean" min/or/max amplitude using channel ROI within timewindow of interest, then adjust to convert from samples to miliseconds 
     
 l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,N2_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,N2_lat))))
 ERP.N2.Alerting_nocue_frontal_latpeak(name_i,1) =    (((N2_lat(1) + l) - 125) * 4)
@@ -29,38 +30,38 @@ ERP.N2.Alerting_double_parietal_latpeak(name_i,1)=    (((N2_lat(1) + l) - 125) *
 
 %P3  latency 280ms to 320ms
 
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat))))
 ERP.P3.Alerting_nocue_frontal_latpeak(name_i,1) =    (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat))))
 ERP.P3.Alerting_nocue_central_latpeak(name_i,1) =    (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat))))
 ERP.P3.Alerting_nocue_parietal_latpeak(name_i,1)=    (((P3_lat(1) + l) - 125) * 4)
 
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat))))
 ERP.P3.Alerting_double_frontal_latpeak(name_i,1) =    (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat))))
 ERP.P3.Alerting_double_central_latpeak(name_i,1) =    (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat))))
 ERP.P3.Alerting_double_parietal_latpeak(name_i,1)=    (((P3_lat(1) + l) - 125) * 4)
 
 %P1  latency 0ms to 200ms
 
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat))))
 ERP.P1.Alerting_nocue_frontal_latpeak(name_i,1) =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat))))
 ERP.P1.Alerting_nocue_central_latpeak(name_i,1) =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat))))
 ERP.P1.Alerting_nocue_parietal_latpeak(name_i,1)=    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat))))
 ERP.P1.Alerting_nocue_occip_latpeak(name_i,1)=       (((P1_lat(1) + l) - 125) * 4)
 
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat))))
 ERP.P1.Alerting_double_frontal_latpeak(name_i,1) =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat))))
 ERP.P1.Alerting_double_central_latpeak(name_i,1) =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat))))
 ERP.P1.Alerting_double_parietal_latpeak(name_i,1)=    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat))))
 ERP.P1.Alerting_nocue_occip_latpeak(name_i,1)=        (((P1_lat(1) + l) - 125) * 4)
 end
 
@@ -92,38 +93,38 @@ ERP.N2.Orienting_updown_parietal_latpeak(name_i,1)=      (((N2_lat(1) + l) - 125
 
 %P3  latency 280ms to 320ms
 
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat))))
 ERP.P3.Orienting_center_frontal_latpeak(name_i,1) =      (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat))))
 ERP.P3.Orienting_center_central_latpeak(name_i,1) =       (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat))))
 ERP.P3.Orienting_center_parietal_latpeak(name_i,1)=       (((P3_lat(1) + l) - 125) * 4)
 
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat))))
 ERP.P3.Orienting_updown_frontal_latpeak(name_i,1) =       (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat))))
 ERP.P3.Orienting_updown_central_latpeak(name_i,1) =       (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat))))
 ERP.P3.Orienting_updown_parietal_latpeak(name_i,1)=       (((P3_lat(1) + l) - 125) * 4)
 
 %P1  latency 0ms to 200ms
 
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat))))
 ERP.P1.Orienting_center_frontal_latpeak(name_i,1) =       (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat))))
 ERP.P1.Orienting_center_central_latpeak(name_i,1) =       (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat))))
 ERP.P1.Orienting_center_parietal_latpeak(name_i,1)=       (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat))))
 ERP.P1.Orienting_center_occip_latpeak(name_i,1)=          (((P1_lat(1) + l) - 125) * 4)
 
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat))))
 ERP.P1.Orienting_updown_frontal_latpeak(name_i,1) =        (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat))))
 ERP.P1.Orienting_updown_central_latpeak(name_i,1) =        (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat))))
 ERP.P1.Orienting_updown_parietal_latpeak(name_i,1)=        (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat))))
 ERP.P1.Orienting_updown_occip_latpeak(name_i,1)=           (((P1_lat(1) + l) - 125) * 4)
 end
 
@@ -155,39 +156,39 @@ ERP.N2.Executive_congruent_parietal_latpeak(name_i,1)  =      (((N2_lat(1) + l) 
 
 %P3  latency 280ms to 320ms
 
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P3_lat))))
 ERP.P3.Executive_incongruent_frontal_latpeak(name_i,1) =    (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P3_lat))))
 ERP.P3.Executive_incongruent_central_latpeak(name_i,1) =    (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P3_lat))))
 ERP.P3.Executive_incongruent_parietal_latpeak(name_i,1)=    (((P3_lat(1) + l) - 125) * 4)
 
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P3_lat))))
 ERP.P3.Executive_congruent_frontal_latpeak(name_i,1)   =      (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P3_lat))))
 ERP.P3.Executive_congruent_central_latpeak(name_i,1)   =      (((P3_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P3_lat))))
 ERP.P3.Executive_congruent_parietal_latpeak(name_i,1)  =      (((P3_lat(1) + l) - 125) * 4)
 
 %P1  latency 0ms to 200ms
 
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(front_chan,P1_lat))))
 ERP.P1.Executive_incongruent_frontal_latpeak(name_i,1) =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(cent_chan,P1_lat))))
 ERP.P1.Executive_incongruent_central_latpeak(name_i,1) =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(pari_chan,P1_lat))))
 ERP.P1.Executive_incongruent_parietal_latpeak(name_i,1)=    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(1).avg(occip_chan,P1_lat))))
 ERP.P1.Executive_incongruent_occip_latpeak(name_i,1)   =       (((P1_lat(1) + l) - 125) * 4)
 
 
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(front_chan,P1_lat))))
 ERP.P1.Executive_congruent_frontal_latpeak(name_i,1)   =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(cent_chan,P1_lat))))
 ERP.P1.Executive_congruent_central_latpeak(name_i,1)   =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(pari_chan,P1_lat))))
 ERP.P1.Executive_congruent_parietal_latpeak(name_i,1)  =    (((P1_lat(1) + l) - 125) * 4)
-l = find(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)) == min(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat))))
+l = find(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat)) == max(mean(load_subs{1,name_i}.timelock(2).avg(occip_chan,P1_lat))))
 ERP.P1.Executive_congruent_occip_latpeak(name_i,1)     =       (((P1_lat(1) + l) - 125) * 4)
 
 end

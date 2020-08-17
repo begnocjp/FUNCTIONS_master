@@ -166,9 +166,9 @@ end
 %% Apply artifact rejection %toggle which condition to use
 %patrick b changed "true" to "1"
 for name_i = 1:length(wpms.names)
-     condition = '_Alerting'
+%      condition = '_Alerting'
 %     condition = '_Orienting'
-%     condition = '_Executive'
+    condition = '_Executive'
     patrick_ccm_artifact_rejection_auto(wpms,name_i,1,50,-100,100,condition)
 end
 
@@ -183,9 +183,9 @@ end
 
 %% Reinterpolate bad channels %toggle which condition to use
 for name_i = 1:length(wpms.names) 
-     condition = '_Alerting'
+%      condition = '_Alerting'
 %     condition = '_Orienting'
-%     condition = '_Executive'
+    condition = '_Executive'
     patrick_ccm256_reinterpolate(wpms,name_i,condition);
 end
 
@@ -338,10 +338,10 @@ end
 close all;
 for name_i = 1:length(wpms.names)
     isreverse_ydir = true; %true or false
-
+% 
 %     condition = '_Alerting'
-%     conditions = {'nocue','double','diff'};
-
+%      conditions = {'nocue','double','diff'};
+% 
 %     condition = '_Orienting'
 %     conditions = {'center','updown','diff'};
 

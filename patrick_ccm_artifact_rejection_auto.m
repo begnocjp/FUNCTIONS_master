@@ -50,7 +50,7 @@ cfg = [];
 %         end
 %     end
 % end
-cfg.artfctdef.threshold.channel   = 1:124; %don't include frontal-externals ; oat question - after channel reject does this still make sense?
+cfg.artfctdef.threshold.channel   = 1:210; %don't include frontal-externals ; oat question - after channel reject does this still make sense?
 cfg.artfctdef.threshold.min       = min; % put 'min' variable back in
 cfg.artfctdef.threshold.max       = max; % put 'max' variable back in
 cfg.trl                           = eogcorr.cfg.previous.trl; % changing from  orig - patrick b. eogcorr.cfg.previous.previous{1,1}.previous.trl;
