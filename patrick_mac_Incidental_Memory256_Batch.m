@@ -353,10 +353,10 @@ for name_i = 1:length(wpms.names)
 %       ROI  = 'frontal'
 % chan  = [9,186,45,132,81,80,131];
 %         ROI  = 'central'
-% chan  = [100,129,101,110,128,119];
-%       ROI  = 'parietal'
- chan  = [137,115,123,158,159];
-      ROI  = 'occipital'
+chan  = [100,129,101,110,128,119];
+      ROI  = 'parietal'
+%  chan  = [137,115,123,158,159];
+%       ROI  = 'occipital'
 
 %creating struct for chan 'for loop'
   
@@ -371,19 +371,19 @@ for name_i = 1:length(wpms.names)
     patrick_ccm_plotERP_ROIs_v2(wpms,name_i,isreverse_ydir,conditions,condition,ROI,chan)
     close all
 end
-%% Draw TIMELOCK ERP:   %toggle which condition to use
+%% Draw ROI mean TIMELOCK ERP:   %toggle which condition to use
 close all;
 for name_i = 1:length(wpms.names)
-    isreverse_ydir = true; %true or false
-
-    condition = '_Alerting'
-    conditions = {'nocue','double','diff'};
+    isreverse_ydir = 'true'; %true or false
+% 
+%     condition = '_Alerting'
+%     conditions = {'nocue','double','diff'};
 
 %     condition = '_Orienting'
 %     conditions = {'center','updown','diff'};
 
-%      condition = '_Executive'
-%      conditions = {'incongruent','congruent','diff'};
+     condition = '_Executive'
+     conditions = {'incongruent','congruent','diff'};
 
      %Toggle channels used as ROIs for Butterfly
 % chan = [22,14,23,15,6,16,7];
@@ -392,11 +392,11 @@ for name_i = 1:length(wpms.names)
 %         ROI  = 'central'
 % chan  = [100,129,101,110,128,119];
 %       ROI  = 'parietal'
-% chan  = [137,115,123,158,159];
-%       ROI  = 'occipital'
+chan  = [137,115,123,158,159];
+      ROI  = 'occipital'
 
    
-    patrick_ccm_plot_mean_ERP_ROIs_v2(wpms,name_i,isreverse_ydir,conditions,condition,ROI,chan)
+    patrick_ccm_plot_mean_ERP_ROIs_v2(wpms,name_i,isreverse_ydir,conditions,condition,chan,ROI)
     close all
 end
 %% TIMELOCK statistics
@@ -438,16 +438,31 @@ stat = ft_timelockstatistics(cfg, allsubjFIC{:}, allsubjFC{:});   % don't forget
 
 %% Plot Grand Average N2/P3 ERP 
 
-condition.name = '_Alerting'
-condition.erp = {'nocue','double','diff'};
+condition = []
+% condition.roi = [22,14,23,15,6,16,7]
+% condition.chan = 'frontal'
+
+% condition.roi = [9,186,45,132,81,80,131]
+% condition.chan = 'central'
+% % 
+% condition.roi = [100,129,101,110,128,119]
+% condition.chan =  'parietal'
+
+condition.roi = [137,115,123,158,159]
+condition.chan = 'occipital'
+
+
+% condition.name = '_Alerting'
+% condition.erp = {'nocue','double','diff'};
+
 
 % condition.name = '_Orienting'
 % condition.erp = {'center','updown','diff'}
 
-% 
-%  condition.name = '_Executive'
-%  conditions.erp = {'incongruent','congruent','diff'};
-% 
+ condition.name = '_Executive'
+ condition.erp = {'incongruent','congruent','diff'};
+
+
 
 
 patrick_plot_Grand_Average(wpms,name_i,condition)
@@ -465,17 +480,17 @@ N2_lat = [162:1:200]
 P3_lat = [187:1:238]
 P1_lat = [125:1:175]
 
-%Channels used as ROIs
+%Channels used as ROIs (must use multiple channels?)
 front_chan = [22,14,23,15,6,16,7];
 cent_chan  = [9,186,45,132,81,80,131];
 pari_chan  = [100,129,101,110,128,119];
 occip_chan  = [137,115,123,158,159];
 
 
-patrick_compute_ERP_latency_peak(wpms,name_i,N2_lat,P3_lat,P1_lat,front_chan,cent_chan,pari_chan,occip_chan)
+patrick_compute_ERP_latency(wpms,name_i,N2_lat,P3_lat,P1_lat,front_chan,cent_chan,pari_chan,occip_chan)
 %
 %% Compute/plot Average N2/P3/P1 ERP values
-
+% 
 %  condition.name = '_Alerting'
 %  condition.erp = {'nocue','double','diff'};
 
@@ -500,7 +515,7 @@ P1_lat = [125:1:175]
 
 N2_lat(1)
 
-%Channels used as ROIs
+%Channels used as ROIs (must use multiple channels?)
 front_chan = [22,14,23,15,6,16,7];
 cent_chan  = [9,186,45,132,81,80,131];
 pari_chan  = [100,129,101,110,128,119];

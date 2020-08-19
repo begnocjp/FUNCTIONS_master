@@ -8,7 +8,7 @@ end
 
 %make Grand Average
 cfg = [];
-%cfg.channel        = channel   %can toggle to select single/ groups of channels
+cfg.channel        = condition.roi   %can toggle to select single/ groups of channels
 %cfg.latency        = [begin end] in seconds or 'all' (default = 'all')
 %cfg.normalizevar   = 'N' or 'N-1' (default = 'N-1')
 cfg.method         = 'across' %(default) or 'within', see below.
@@ -61,18 +61,19 @@ elseif 1 == strcmp(condition.name,'_Orienting')
     diff      = grandavg{3}
 end
 
-save([wpms.dirs.CWD wpms.dirs.TIMELOCK 'GRANDAVERAGE' condition.name '.mat'],'grandavg','-v7.3');
+save([wpms.dirs.CWD wpms.dirs.TIMELOCK 'GRANDAVERAGE' condition.name condition.chan '.mat'],'grandavg','-v7.3');
 
 %make GA ERP plots according to condition 
 
 cfg = [];
 cfg.showlabels    = 'yes';
 cfg.fontsize      = 6;
+cfg.linecolor     = 'bgr'
 cfg.layout        = '/Users/patrick/Desktop/EEG/FUNCTIONS/GSN-HydroCel-256.sfp';
 %cfg.ylim = [-3e-13 3e-13];
 
 if 1 == strcmp(condition.name,'_Executive')
-    ft_multiplotER(cfg, incongruent,congruent,diff);
+   ft_multiplotER(cfg, incongruent,congruent,diff);
     
 elseif 1 == strcmp(condition.name,'_Alerting')
     ft_multiplotER(cfg, nocue,double,diff);
