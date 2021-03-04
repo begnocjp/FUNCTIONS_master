@@ -1,6 +1,6 @@
 %ccm256_auto_bad_channel_reject
 
-function patrick_ccm256_auto_chan_reject(wpms,name_i)
+function patrick_docker_ccm256_auto_chan_reject(wpms,name_i)
 
 PartID = wpms.names{name_i}; % change this to load each new participant in.
 fprintf('Working on: %s \n',PartID);
@@ -12,7 +12,7 @@ load([wpms.dirs.CWD wpms.dirs.preproc PartID,'_REFnFILT']);
 data.events      = [];
 data.channels = data.label
 EEG = pop_fileio(data.hdr, data.trial{1, 1});
-Chan.chanlocs=readlocs('/Users/patrick/Desktop/EEG/FUNCTIONS/GSN-HydroCel-256.sfp')
+Chan.chanlocs=readlocs('./GSN-HydroCel-256.sfp')
 EEG.chanlocs = Chan.chanlocs
 EEG.chanlocs(1:3) = []
 

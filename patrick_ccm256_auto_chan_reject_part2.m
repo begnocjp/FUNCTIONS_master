@@ -20,15 +20,15 @@ EEG.chanlocs(1:3) = []
 %perform channel rejection, if you adjust the threshold here also make same
 %adjustment to the chanrej function in auto ICA removal 
 
-%rehecting based on spec freq
+
 [EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...
     'threshold',2,'norm','on','measure','spec','freqrange',[0.3 40]);
 
+%[EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...   %for
 %rejecting based on kurtosis
-%  [EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...
-%     'threshold',4,'norm','on','measure','kurt');
+%   'threshold',4,'norm','on','measure','kurt');
 
-
+%create good channel list for removal to visualize remaining bad channels
 
 
 
