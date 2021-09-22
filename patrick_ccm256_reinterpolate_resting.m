@@ -10,7 +10,7 @@
 %
 %  Patrick Cooper & Aaron Wong, 2014
 %  Functional Neuroimaging Laboratory, University of Newcastle
-function patrick_ccm256_reinterpolate(wpms,name_i,condition)
+function patrick_ccm256_reinterpolate_resting(wpms,name_i,condition)
 fprintf('Loading: %s%s \n',wpms.names{name_i},'''s data');
 load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA' condition]);%csd data
 load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_badchannellist']);%badchannel list
@@ -45,7 +45,7 @@ for i = 1:size(data.trial,2)
     end
 end
 cfg = data.cfg;
-data_2 = struct('hdr',data.hdr,'fsample',data.fsample,'sampleinfo',data.sampleinfo,'trialinfo',data.trialinfo,'trial',{trial},'time',{time},'cfg',cfg,'label',{label});
+data_2 = struct('hdr',data.hdr,'fsample',data.fsample,'sampleinfo',data.sampleinfo,'trial',{trial},'time',{time},'cfg',cfg,'label',{label});
 clear data;
 data = data_2;
 clear data_2 trial time j i

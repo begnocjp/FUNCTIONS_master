@@ -33,7 +33,8 @@ for cond_i =1:length(conditions)
     end
     mkdir([wpms.dirs.CWD EEGLAB_DATA_FOLDER foldername_name conditions{cond_i}]);
     load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_' conditions{cond_i} '.mat']);
-    eval(['data =' datname(cond_i).nams{1,1} ';']);
+    data=refdat
+  %  eval(['data =' datname(cond_i).nams{1,1} ';']);
     for ch_i=1:size(data.trial{1,1},1)
         fprintf('.');
         %determine max number of trials for EEG.data

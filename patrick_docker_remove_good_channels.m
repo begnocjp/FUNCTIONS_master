@@ -1,4 +1,4 @@
-function patrick_fnl_remove_good_channels(wpms,name_i)
+function patrick_docker_remove_good_channels(wpms,name_i)
     fprintf('Loading: %s%s \n',wpms.names{name_i},'''s common average referenced data. . .');
     load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REFnFILT']); %referenced data
     fprintf('Loading: %s%s \n',wpms.names{name_i},'''s good channel list. . .');
@@ -66,12 +66,14 @@ function patrick_fnl_remove_good_channels(wpms,name_i)
     clear data_2
     save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_GoodChannRemoved'],'data','-v7.3');
       cfg = []
-    cfg.layout = '/Users/patrick/Desktop/nCCR_Cancer_EEG/GSN-HydroCel-256.sfp'
-    cfg.visible = 'off'
+    cfg.layout = './GSN-HydroCel-256.sfp'
+    cfg.visibile = 'off'
     plot_only_badchan = ft_layoutplot(cfg, data)
+    saveas(gcf,'/Users/patrick/Desktop/nCCR_Cancer_EEG/images/test.png')
+    
   %save figure%
-  savefig([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_GoodChannRemoved.fig'])
-  fig = openfig('/Users/patrick/Desktop/nCCR_Cancer_EEG/goodchan.fig')
+  savefig('./QA/goodchan.fig')
+  %fig = openfig('/Users/patrick/Desktop/EEG/goodchan.fig')
   filename = [wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_AutoRejectedChannels.pdf']
   saveas(fig, filename)
   

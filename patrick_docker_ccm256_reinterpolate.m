@@ -10,7 +10,7 @@
 %
 %  Patrick Cooper & Aaron Wong, 2014
 %  Functional Neuroimaging Laboratory, University of Newcastle
-function patrick_ccm256_reinterpolate(wpms,name_i,condition)
+function patrick_docker_ccm256_reinterpolate(wpms,name_i,condition)
 fprintf('Loading: %s%s \n',wpms.names{name_i},'''s data');
 load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_ARTFREEDATA' condition]);%csd data
 load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_badchannellist']);%badchannel list
@@ -77,10 +77,6 @@ fprintf('. \n');
 interp = ft_channelrepair(cfg, temp);
 interp.sampleinfo = temp.sampleinfo;
 refdat = interp;
-%make header match actual data (replace old infor left over from chan rej)
-refdat.hdr.label = refdat.label
-refdat.hdr.nChans= size(refdat.label)
-refdat.hdr.nChans= refdat.hdr.nChans(1) 
 save([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED' condition],'refdat','-v7.3')
 clear data channel badchann data interp lay neighbours w temp% tidying
 end

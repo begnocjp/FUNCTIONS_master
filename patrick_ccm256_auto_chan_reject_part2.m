@@ -8,11 +8,11 @@ load([wpms.dirs.CWD wpms.dirs.preproc PartID,'_REFnFILT']);
 
 
 %convert to EEGlab structure
-% data = refdat_CSD_2029
+
 data.events      = [];
 data.channels = data.label
 EEG = pop_fileio(data.hdr, data.trial{1, 1});
-Chan.chanlocs=readlocs('/Users/patrick/Desktop/nCCR_Cancer_EEG/FUNCTIONS/GSN-HydroCel-256.sfp')
+Chan.chanlocs=readlocs('/Users/patrick/Desktop/EEG/FUNCTIONS/GSN-HydroCel-256.sfp')
 EEG.chanlocs = Chan.chanlocs
 EEG.chanlocs(1:3) = []
 
@@ -20,15 +20,15 @@ EEG.chanlocs(1:3) = []
 %perform channel rejection, if you adjust the threshold here also make same
 %adjustment to the chanrej function in auto ICA removal 
 
-%rehecting based on spec freq
+
 [EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...
     'threshold',2,'norm','on','measure','spec','freqrange',[0.3 40]);
 
+%[EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...   %for
 %rejecting based on kurtosis
-%  [EEG,EEG.reject.indelec] = pop_rejchan(EEG,'elec',[1:256], ...
-%     'threshold',4,'norm','on','measure','kurt');
+%   'threshold',4,'norm','on','measure','kurt');
 
-
+%create good channel list for removal to visualize remaining bad channels
 
 
 

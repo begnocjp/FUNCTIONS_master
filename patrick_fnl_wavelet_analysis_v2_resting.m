@@ -61,13 +61,36 @@ for cond_i = 1:length(current_file_types)
         times2testidx=zeros(size(times2test));
         %times2testidx=mat2cell(times2testidx,1,length(times2test));
         %times2test=mat2cell(times2test,1,length(times2test));
+%         TEMP_TIMES = EEG.times;
+%         for i=1:length(times2test)
+%             temp = (TEMP_TIMES*1000-times2test(i));
+%             temp = abs(temp);
+%             [~,times2testidx(i)]=min(temp);
+%             %                 [~,times2testidx{i}]=min(abs(EEG.times*1000-times2test{i}));
+%         end
+
+% using the below indexing code for resting state, since some inital trials were dropped the TEMP_TIMES*1000 part does not work,
+% which seems to assume that the fist trial is used (temp time of 0 - 1000 ms)
+% test again if using for diff length (won't work if times does not match
+% trial length, might need to intialize specific TEMP_TIMES)
+% trials and/or baseline, i.e. won't work if hoping to test a section of a
+% trial instead of entire trial length, then use 
         TEMP_TIMES = EEG.times;
+        for i=1:length(TEMP_TIMES) 
+            TEMP_TIMES_store(i) = TEMP_TIMES(i)*times2test(i)/TEMP_TIMES(i);
+            TEMP_TIMES_store(1,1) = 0
+        end    
+        
         for i=1:length(times2test)
-            temp = (TEMP_TIMES*1000-times2test(i));
+            temp = (TEMP_TIMES_store-times2test(i));
             temp = abs(temp);
             [~,times2testidx(i)]=min(temp);
             %                 [~,times2testidx{i}]=min(abs(EEG.times*1000-times2test{i}));
         end
+%that bit up there wasn't quite right..., now just using time to create the
+%index
+
+            
         %times2testidx = cell2mat(times2testidx);
         %times2test=cell2mat(times2test);
         % define time and cycles for wavelets
@@ -111,12 +134,21 @@ for cond_i = 1:length(current_file_types)
             fprintf(' \t AFTER STORE: %3.2f, %s', frex(fi),TEMP_COMMENTS);
             fprintf(' \n');
             %% compute trial-averaged baseline-corrected power
-            baselineperiod=[ -0.25 0 ];
-            [~,StartBaselineIdx]=min(abs(TEMP_TIMES-baselineperiod(1)));
-            [~,EndBaselineIdx]=min(abs(TEMP_TIMES-baselineperiod(2)));
-            fprintf('\n\ncompute trial-averaged baseline-corrected power\n\n');
-            fprintf(' \t \t Calculating for channel %i %s\n', 1,TEMP_COMMENTS);
-            mw_tf(fi,:) = 10*log10( squeeze(mean(freqdata(1,times2testidx,:),3)) ./ mean(mean(freqdata(1,StartBaselineIdx:EndBaselineIdx,:),3),2) );
+%              baselineperiod=[ -.25 0 ];
+%              [~,StartBaselineIdx]=min(abs(TEMP_TIMES-baselineperiod(1)));
+%              [~,EndBaselineIdx]=min(abs(TEMP_TIMES-baselineperiod(2)));
+%             fprintf('\n\ncompute trial-averaged baseline-corrected power\n\n');
+%             fprintf(' \t \t Calculating for channel %i %s\n', 1,TEMP_COMMENTS);
+%             mw_tf(fi,:) = 10*log10( squeeze(mean(freqdata(1,times2testidx,:),3)) ./ mean(mean(freqdata(1,StartBaselineIdx:EndBaselineIdx,:),3),2) );
+%             complex_mw_tf(fi,:) = squeeze(mean(complex_freqdata(1,times2testidx,:),3));
+            
+                        %% compute trial-averaged w/out baseline-corrected power
+%              baselineperiod=[ 0 0 ]; %changing to [ 0 0 ] since no baseline for resting
+%              [~,StartBaselineIdx]=min(abs(TEMP_TIMES-baselineperiod(1)));
+%              [~,EndBaselineIdx]=min(abs(TEMP_TIMES-baselineperiod(2)));
+%            fprintf('\n\ncompute trial-averaged baseline-corrected power\n\n');
+%            fprintf(' \t \t Calculating for channel %i %s\n', 1,TEMP_COMMENTS);
+            mw_tf(fi,:) = 10*log10( squeeze(mean(freqdata(1,times2testidx,:),3)));
             complex_mw_tf(fi,:) = squeeze(mean(complex_freqdata(1,times2testidx,:),3));
         end % end frequency loop
         subfilename = [wpms.names{name_i},'_',current_file_types{cond_i},'_',num2str(channi)];

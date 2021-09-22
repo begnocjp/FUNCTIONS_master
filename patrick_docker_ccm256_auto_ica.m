@@ -1,6 +1,6 @@
 %ccm256_auto_I
 
-function patrick_ccm256_auto_ica(wpms,name_i) 
+function patrick_docker_ccm256_auto_ica(wpms,name_i) 
 
 PartID = wpms.names{name_i}; % change this to load each new participant in.
 fprintf('Working on: %s \n',PartID);
@@ -10,7 +10,7 @@ load([wpms.dirs.CWD wpms.dirs.preproc PartID,'_REFnFILT']);
 data.events      = [];
 data.channels = data.label
 EEG = pop_fileio(data.hdr, data.trial{1, 1});
-Chan.chanlocs=readlocs('/Users/patrick/Desktop/nCCR_Cancer_EEG/FUNCTIONS/GSN-HydroCel-256.sfp')
+Chan.chanlocs=readlocs('./GSN-HydroCel-256.sfp')
 EEG.chanlocs = Chan.chanlocs
 EEG.chanlocs(1:3) = []
 %perform ICA rejection
@@ -31,10 +31,8 @@ EEG.chanlocs(1:3) = []
  %   EEG.icaweights = EEG1.icaweights
  %    EEG.icawinv = EEG1.icawinv
 %run ICA "fastica"
- %  EEG = pop_runica( EEG,'fastica') 
- % run ICA with limit, good for HD eeg?
- EEG = pop_runica( EEG,'stop',1e-07,'interupt','on')
- 
+   EEG = pop_runica( EEG,'fastica') 
+
 %not using : ADJUST auto ICA (not fully auto, final selection still needed) ADJUST command: EEG = interface_ADJ (EEG, 'report');
 %continute with FASTER ICA process
  
@@ -48,14 +46,12 @@ EEG.chanlocs(1:3) = []
 
   % now actually reject components 
   % components = EEG.reject.gcompreject
-  keepcomp = 0
-  % plotag = 0
-  EEG = pop_subcomp( EEG, components);   %removes specific components
-  savefig('/Users/patrick/Desktop/nCCR_Cancer_EEG/pop_selectcomps.fig')
-  fig = openfig('/Users/patrick/Desktop/nCCR_Cancer_EEG/pop_selectcomps.fig')
+  EEG = pop_subcomp( EEG, components,1);   %removes specific components
+  savefig('./QA/pop_selectcomps.fig')
+  fig = openfig('./QA/pop_selectcomps.fig')
   filename = [wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_AutoRejectedICAcomps.pdf']
   saveas(fig, filename)
-  saveas(fig, '/Users/patrick/Desktop/nCCR_Cancer_EEG/PREPROC_OUTPUT/pop_selectcomps.pdf')
+  saveas(fig, './QA/pop_selectcomps.pdf')
   
   
    %save output (either entire EEG structure of ideally PDF of rejected

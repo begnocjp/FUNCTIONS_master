@@ -67,7 +67,7 @@ function patrick_ccm_plot_mean_ERP_ROIs(wpms,name_i,isreverse_ydir, conditions,c
         set(gca,'YDir','normal');
     end
     eval(['legend(',legend_details,'''Location'',''SouthWest'');']);
-    title([removed_underscore,'Chan: ',ROI,' TIMELOCK ERP' condition]);
+    title([removed_underscore,'Chan: ',ROI,' TIMELOCK ERP' condition wpms.names{name_i}]);
     mkdir([wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i}])
     saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' ROI 'MEAN_TIMELOCK_ERP' condition]);
     saveas(gcf,[wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '\' wpms.names{name_i} '_' ROI 'MEAN_TIMELOCK_ERP' condition],'bmp');

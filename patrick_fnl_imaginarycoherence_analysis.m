@@ -21,7 +21,7 @@ function patrick_fnl_imaginarycoherence_analysis(wpms,channels,conditions,name_i
 
 %wpms.dirs.CWD = 'E:/fieldtrip/';
 
-% matlabpool(4);
+ parpool(4);
 % try
     for cond_i = 1:length(conditions)
         for chx = 1:length(channels)
@@ -38,6 +38,8 @@ function patrick_fnl_imaginarycoherence_analysis(wpms,channels,conditions,name_i
                 complex_mw_tf_2 = squeeze(data2.complex_mw_tf);
                 CROSSSPEC = zeros(size(complex_mw_tf_1,1),size(complex_mw_tf_1,2),'single');
                 parfor bin = 1:size(complex_mw_tf_1,1)
+                    complex_mw_tf_1 = squeeze(data1.complex_mw_tf);
+                    complex_mw_tf_2 = squeeze(data2.complex_mw_tf);
                     fft_x = complex_mw_tf_1(bin,:);
                     fft_y_conj = conj(complex_mw_tf_2(bin,:));
                     Cross = squeeze(fft_x.*fft_y_conj);
@@ -49,9 +51,9 @@ function patrick_fnl_imaginarycoherence_analysis(wpms,channels,conditions,name_i
                     CROSSSPEC(bin,:) = ImagCoh;
                 end
                 current_file = 'IMAGCOH';
-                mkdir([wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR]);
-                mkdir([wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR,wpms.names{name_i}]);
-                mkdir([wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR,wpms.names{name_i},'/',conditions{cond_i}])
+%                 mkdir([wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR]);
+%                 mkdir([wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR,wpms.names{name_i}]);
+%                 mkdir([wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR,wpms.names{name_i},'/',conditions{cond_i}])
                 savefilename = [wpms.dirs.CWD,wpms.dirs.COHERENCE_DIR,wpms.names{name_i},'/',conditions{cond_i}, ...
                     '/',current_file,'_CH',num2str(chx), ...
                     '_CH',num2str(chy),'.mat'];
@@ -61,5 +63,5 @@ function patrick_fnl_imaginarycoherence_analysis(wpms,channels,conditions,name_i
     end
 %catch exception
  %  exception
-     matlabpool close force;
- matlabpool close;
+%       parpool close force;
+%  parpool close;

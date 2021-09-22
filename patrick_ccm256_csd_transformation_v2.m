@@ -12,8 +12,8 @@
 %
 %  Patrick Cooper & Aaron Wong, 2014
 %  Functional Neuroimaging Laboratory, University of Newcastle
-function ccm256_csd_transformation_v2(wpms,name_i)
-wpms.conditions = {'attn','sngl','rept'};%conditions of interest
+function ccm256_csd_transformation_v2(wpms,name_i,condition)
+%wpms.conditions = {'attn','sngl','rept'};%conditions of interest
 wpms.RefComparisons = {'Vertex','CommonAverage','AverageMastoids','SurfaceLapacian'};
 addpath(genpath([wpms.dirs.CWD wpms.dirs.FUNCTIONS]));
 addpath(genpath([wpms.dirs.CWD wpms.dirs.FUNCTIONS filesep 'fieldtrip' filesep]));
@@ -22,7 +22,7 @@ channels = 256;
 
 fprintf('Currently Referencing: %s \n',wpms.names{name_i});
 %changing file name for testing
-filename = [wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED.mat'];
+filename = [wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REPAIRED_AND_REFERENCED' condition '.mat'];
 %filename = [wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_REFnFILT.mat'];
 load(filename);
 
@@ -33,7 +33,7 @@ cfg_timelock.trials = 'all';
 cfg_timelock.keeptrials = 'no';    
 cfg_timelock.vartrllength = 0;
 
-timelock_data_before = ft_timelockanalysis(cfg_timelock, refdat);
+%timelock_data_before = ft_timelockanalysis(cfg_timelock, refdat);
 
 addpath(genpath([wpms.dirs.CWD wpms.dirs.packages filesep 'CSDtoolbox' filesep]));%add csdtoolbox to path
 E = load([wpms.dirs.FUNCTIONS 'egi_label_256.mat']); %CHECK FORMAT OF LABELS might need a transpose.
@@ -55,19 +55,19 @@ fprintf('\nSaving as: %s\n',save_filename);
 save(save_filename,'refdat','-v7.3');
 
 
-cfg_timelock = [];
-cfg_timelock.channel = 'all';
-cfg_timelock.trials = 'all';
-cfg_timelock.keeptrials = 'no';    
-cfg_timelock.vartrllength = 0;
-
-timelock_data_after = ft_timelockanalysis(cfg_timelock, refdat);
-
-cfg_plot = [];
-cfg_plot.parameter = 'avg';
-cfg_plot.channel = [1:256];
-cfg_plot.layout = 'GSN-HydroCel-256.sfp';
-cfg_plot.showlabels = 'yes';
-
-ft_multiplotER(cfg_plot, timelock_data_before, timelock_data_after);
+% cfg_timelock = [];
+% cfg_timelock.channel = 'all';
+% cfg_timelock.trials = 'all';
+% cfg_timelock.keeptrials = 'no';    
+% cfg_timelock.vartrllength = 0;
+% 
+% timelock_data_after = ft_timelockanalysis(cfg_timelock, refdat);
+% 
+% cfg_plot = [];
+% cfg_plot.parameter = 'avg';
+% cfg_plot.channel = [1:256];
+% cfg_plot.layout = 'GSN-HydroCel-256.sfp';
+% cfg_plot.showlabels = 'yes';
+% 
+% ft_multiplotER(cfg_plot, timelock_data_before, timelock_data_after);
 pause(5);
