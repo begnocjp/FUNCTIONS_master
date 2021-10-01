@@ -1,4 +1,4 @@
-function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions, condition)
+function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions, condition,baseline)
 
 
     fprintf('---- Time Lock Analysis on: %s ----\n', wpms.names{name_i});
@@ -34,7 +34,7 @@ function [timelock_erp] = patrick_fnl_timelockanalysis(wpms,name_i,conditions, c
     
       for i = 1:length(conditions)
     cfg=[];
-    cfg.baseline = [-0.2 0];
+    cfg.baseline = baseline;
     timelock_erp.conditions_blcor(i) = ft_timelockbaseline(cfg, timelock_erp.conditions(i));
     
       end
