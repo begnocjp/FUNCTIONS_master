@@ -230,7 +230,7 @@ TIMELOCK.(char(condition.erp(i))).N2.avg_Amp.mean_Occipital = mean(TIMELOCK.(cha
 
 end
 
-save([wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} '_TIMELOCK_amp_lat.mat'],'TIMELOCK','-v7.3');
+save([wpms.dirs.CWD wpms.dirs.TIMELOCK wpms.names{name_i} condition.name '_TIMELOCK_amp_lat.mat'],'TIMELOCK','-v7.3');
 
 if name_i == 1
     
@@ -253,22 +253,22 @@ if name_i == 1
     
     
     load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition.name '.mat']);
-    if condition.name == '_Alerting'
+    if strcmp(condition.name, '_Alerting') == 1
         group_results.num_trials.nocue{name_i} = length(load_subs{name_i}.timelock(1).cfg.previous.trials)
         group_results.num_trials.double{name_i} = length(load_subs{name_i}.timelock(2).cfg.previous.trials)
-    elseif condition.name == '_Orienting'
+    elseif strcmp(condition.name, '_Orienting') == 1
         group_results.num_trials.center{name_i} = length(load_subs{name_i}.timelock(1).cfg.previous.trials)
         group_results.num_trials.updown{name_i} = length(load_subs{name_i}.timelock(2).cfg.previous.trials)
-    elseif condition.name == '_Executive'
+    elseif strcmp(condition.name, '_Executive') == 1
         group_results.num_trials.incongruent{name_i} = length(load_subs{name_i}.timelock(1).cfg.previous.trials)
         group_results.num_trials.congruent{name_i} = length(load_subs{name_i}.timelock(2).cfg.previous.trials)
     end
     
-    save([wpms.dirs.CWD wpms.dirs.TIMELOCK 'group_results_amp_lat.mat'],'group_results','-v7.3');
+    save([wpms.dirs.CWD wpms.dirs.TIMELOCK condition.name '_group_results_amp_lat.mat'],'group_results','-v7.3');
     
 else
     
-    load([wpms.dirs.CWD wpms.dirs.TIMELOCK 'group_results_amp_lat.mat'])
+    load([wpms.dirs.CWD wpms.dirs.TIMELOCK condition.name '_group_results_amp_lat.mat'])
     
     group_results.names{name_i} = wpms.names{name_i}
     %TIMELOCK.group_results.store{name_i}
@@ -287,18 +287,18 @@ else
     
     
     load_subs{name_i} = load([wpms.dirs.CWD wpms.dirs.preproc wpms.names{name_i} '_TIMELOCK' condition.name '.mat']);
-    if condition.name == '_Alerting'
+    if strcmp(condition.name, '_Alerting') == 1
         group_results.num_trials.nocue{name_i} = length(load_subs{name_i}.timelock(1).cfg.previous.trials)
         group_results.num_trials.double{name_i} = length(load_subs{name_i}.timelock(2).cfg.previous.trials)
-    elseif condition.name == '_Orienting'
+    elseif strcmp(condition.name, '_Orienting') == 1
         group_results.num_trials.center{name_i} = length(load_subs{name_i}.timelock(1).cfg.previous.trials)
         group_results.num_trials.updown{name_i} = length(load_subs{name_i}.timelock(2).cfg.previous.trials)
-    elseif condition.name == '_Executive'
+    elseif strcmp(condition.name, '_Executive') == 1
         group_results.num_trials.incongruent{name_i} = length(load_subs{name_i}.timelock(1).cfg.previous.trials)
         group_results.num_trials.congruent{name_i} = length(load_subs{name_i}.timelock(2).cfg.previous.trials)
     end
     
-    save([wpms.dirs.CWD wpms.dirs.TIMELOCK 'group_results_amp_lat.mat'],'group_results','-v7.3');
+    save([wpms.dirs.CWD wpms.dirs.TIMELOCK condition.name '_group_results_amp_lat.mat'],'group_results','-v7.3');
     
 end
    
