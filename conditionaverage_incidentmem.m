@@ -1,11 +1,11 @@
 %% Set up parameters
 clear all;close all;clc;
-datain = 'E:\fieldtrip\WAVELET_OUTPUT_DIR\';
-dataout = 'E:\fieldtrip\WAVELET_OUTPUT_DIR\results\';
+datain = 'D:\fieldtrip\WAVELET_OUTPUT_DIR\';
+dataout = 'D:\fieldtrip\WAVELET_OUTPUT_DIR\results\';
 frex=logspace(log10(2),log10(50),80);
 freqs = {1:18;19:35;36:49;50:68;69:80};%delta theta alpha beta lo-gamma
 freq_labels ={'DELTA','THETA','ALPHA','BETA','LO-GAMMA'};
-times = -1000:4:2000;
+times = -200:4:1000;
 channels = 1:128;
 labels = {'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26',...
     '27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52',...
@@ -27,7 +27,7 @@ names = {'wc01_scenes_002','wc115_scenes_002','wc1102_scenes_002','wc1103_scenes
 conditions = {'single','repeat'};
 % blocknames = {'nogo'};%,'dir',nogo,nondir};
 clusternames = {'Frontal','Parietal'};
-addpath(genpath('E:\fieldtrip\PACKAGES\fieldtrip'));
+addpath(genpath('D:\fieldtrip\PACKAGES\fieldtrip'));
 stats = zeros(length(names),5,5,5);
 %% Load in data - Mainly for initial data structures
 clusters={{'4','5','6','11','12','13','20','21','25','29','113','118','119','124'},...
@@ -35,12 +35,12 @@ clusters={{'4','5','6','11','12','13','20','21','25','29','113','118','119','124
 
 frontal = clusters{1};
 parietal = clusters{2};
-
+%Group_i Loop for Angelman vs Control
 for block_i = 2%:length(conditions)
     %     conditions=blocks{block_i};
-    
+    %Cluster loop
     count1 = 0;
-    count2 = 0;
+    count2 = 0;% can remove if cluster loop is added
     cond_mwtf1 = zeros(80,751);
     cond_mwtf2 = zeros(80,751);
     frontal_data_forttest = zeros(length(1:30),80,751);
@@ -164,66 +164,11 @@ p_thresh_parietal(p_parietal<crit_p)=1;
 % save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\Movies\p_thresh_old' blocknames{block_i} '_Pz.mat'],'p_thresh_old');
 
 
-%% Load in data - avg over trial types 
-clusters={{'4','5','6','11','12','13','20','21','25','29','113','118','119','124'},...
-    {'53','54','60','61','62','67','68','21','25','29','113','118','119','124'}};%,...
 
-frontal = clusters{1};
-parietal = clusters{2};
-
-for cluster_i = 1:length(clusters)
-    %     conditions=blocks{block_i};
-    
-    count1 = 0;
-%     count2 = 0;
-    cond_mwtf1 = zeros(80,751);
-%     cond_mwtf2 = zeros(80,751);
-    data_forttest = zeros(length(1:30),80,751);
-%     parietal_data_forttest = zeros(length(1:30),80,751);
-    
-    for name_i = 1:length(names)
-        fprintf('\n%s\t%s','Working on subject:',names{name_i});
-        tempdata = zeros(80,751);
-        for cond_i = 1:length(conditions)
-            clusterelec = clusters{cluster_i};
-            for elec_i = 1:length(clusterelec)
-                fprintf('.');
-                load([datain names{name_i} filesep conditions{cond_i} filesep names{name_i} '_' conditions{cond_i} '_' clusterelec{elec_i} '_imagcoh_mwtf.mat'],'mw_tf');
-                cond_mwtf1 = cond_mwtf1 + mw_tf;
-                count1 = count1+1;
-                tempdata = tempdata+mw_tf;
-            end
-        end        
-        data_forttest(name_i,:,:) = tempdata./(length(clusterelec));%*length(conditions));
-        
-%         tempdata2 = zeros(80,6001);
-%         for cluster_i = 2%:length(clusters)
-%             clusterelec = clusters{cluster_i};
-%             for elec_i = 1:length(clusterelec)
-%                 fprintf('.');
-%                 load([datain names{name_i} filesep conditions{block_i} filesep names{name_i} '_' conditions{block_i} '_' clusterelec{elec_i} '_imagcoh_mwtf.mat'],'mw_tf');
-%                 cond_mwtf2 = cond_mwtf2 + mw_tf;
-%                 count2 = count2+1;
-%                 tempdata2 = tempdata2+mw_tf;
-%             end
-%         end
-%         parietal_data_forttest(name_i,:,:) = tempdata2./(length(clusterelec));%*length(conditions));
-        
-    end
-    
-   avg = cond_mwtf1./count1;
-%     parietal_avg = cond_mwtf2./count2;
-    
-    clear cond_mw_tf1 cond_mw_tf2 tempdata tempdata2 count1 count2 mw_tf
-    
-    save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\' clusternames{cluster_i} '_power.mat'],'avg');
-%     save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\pareital_avg_' conditions{block_i} '_' clusternames{2} '_power.mat'],'parietal_avg');
-    save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\' clusternames{cluster_i} '_ttestdata.mat'],'data_forttest');
-%     save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\pareital_data_' conditions{block_i} '_' clusternames{2} '_power.mat'],'parietal_data_forttest');  
-end
 
 %% Analyse time point*frex for Condition Avg
-
+% Analyze time*frex for each condition and cluster within the whole sample
+% array
 frontal = load(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\Frontal_ttestdata.mat'], 'data_forttest');
 parietal = load(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\Parietal_ttestdata.mat'], 'data_forttest');
 
@@ -236,11 +181,13 @@ parietal_avg = load(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\Parietal_power.mat
 front_mean = front_avg.avg;
 parietal_mean = parietal_avg.avg;
 
-p_frontal = zeros(68,length(251:501));
+p_frontal = zeros(68,length(251:501)); %p_repeat_central = zeros(80,251:501)
 p_parietal = zeros(68,length(251:501));
-
+% Testing the full sample's difference in power from 0
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%for
+% freq?
 for freq = 1:68
-    [~,p_frontal(freq,:)] = ttest(squeeze(front(:,freq,251:501)));%,'Alpha', 0.05);
+    [~,p_frontal(freq,:)] = ttest(squeeze(front(:,freq,251:501)));%,'Alpha', 0.05); -is the data different from 0
 end
 
 for freq = 1:68
@@ -248,10 +195,10 @@ for freq = 1:68
 end
 
 % Apply FDR Corrections
-addpath(genpath('E:\fieldtrip\PACKAGES\mass_uni_toolbox\'));
+addpath(genpath('D:\fieldtrip\PACKAGES\mass_uni_toolbox\'));
 thresh =0.005;
 
-p_crit = zeros(size(p_frontal));
+p_crit = zeros(size(p_frontal)); %p_crit_single_central
 crit_p = zeros(size(p_crit));
 
 for freq = 1:68
@@ -261,9 +208,9 @@ end
 for freq = 1:68
     [~,crit_p(freq,:)]=fdr_bky(p_parietal(freq,:),thresh,'no');
 end
-    
+% Logical test of threshold    
 p_thresh_frontal=zeros(size(p_frontal));
-p_thresh_frontal(p_frontal<p_crit)=1;
+p_thresh_frontal(p_frontal<p_crit)=1; % Mask of boolean values 
 save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\p_thresh_TaskAvg_frontal.mat'],'p_thresh_frontal');
 
 p_thresh_parietal=zeros(size(p_parietal));
@@ -271,7 +218,7 @@ p_thresh_parietal(p_parietal<crit_p)=1;
 save(['E:\fieldtrip\WAVELET_OUTPUT_DIR\results\p_thresh_TaskAvg_parietal.mat'],'p_thresh_parietal');
 
 
-%% Plot
+%% Plot Masked data against whole sample averages
 
 % Frontal
         figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
@@ -309,8 +256,8 @@ single_parietal = load([dataout '\Incidental_Mem30' filesep 'pareital_data_singl
 repeat_frontal = load([dataout '\Incidental_Mem30' filesep 'frontal_data_repeat_Frontal_power.mat'],'frontal_data_forttest');
 repeat_parietal = load([dataout '\Incidental_Mem30' filesep 'pareital_data_repeat_Parietal_power.mat'],'parietal_data_forttest');
 
-single_frontal =  single_frontal.frontal_data_forttest;
-single_parietal = single_parietal.parietal_data_forttest;
+single_frontal =  single_frontal.frontal_data_forttest; % Control_single_frontal_data
+single_parietal = single_parietal.parietal_data_forttest; % Angelmans_repeated_parietal_data
 repeat_frontal = repeat_frontal.frontal_data_forttest;
 repeat_parietal = repeat_parietal.parietal_data_forttest;
 
@@ -853,3 +800,9 @@ end
   
 %     end
 % end
+
+
+
+%     frontal_data_forttest  = double(permute(cat(3,cell2mat(reshape(data_forttest(:,1,:),1,1,[]))),[3,1,2]));
+%     parietal_data_forttest = double(permute(cat(3,cell2mat(reshape(data_forttest(:,2,:),1,1,[]))),[3,1,2]));
+%     central_data_forttest  = double(permute(cat(3,cell2mat(reshape(data_forttest(:,3,:),1,1,[]))),[3,1,2]));
