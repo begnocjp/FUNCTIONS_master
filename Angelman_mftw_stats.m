@@ -34,80 +34,7 @@ for i = 1:length(wpms.names{1, 1})
     wpms.names(1)
 end
 
-Control_group = ...
-    {'FAST_c001_memory_20190410_081334002', ...
-    'FAST_c002_memory_20190410_082939002','FAST_c003_memory_20190422_034503002', ...
-    'FAST_c004_memory_20190425_101929002','FAST_c005_memory_20190425_110111002', ...
-    'FAST_c006_memory_20190425_040746002','FAST_c007_memory_20190426_124602002', ...
-    'FAST_c008_memory_20190426_011502002','FAST_c009_memory_20190501_083429002', ...
-    'FAST_c010_memory_20190501_035324002','FAST_c011_memory_20190506_031028002', ...
-    'FAST_c012_memory_20190506_033701002','FAST_c013_memory_20190507_033506002', ...
-    'FAST_c014_memory_20190509_040256002','FAST_c015_memory_20190509_043039002', ...
-    'FAST_c016_memory_20190515_044301002','FAST_c017_memory_20190520_023536002', ...
-    'FAST_c018_memory_20190528_103019002','FAST_c019_memory_20190528_021127002', ...
-    'FAST_c020_memory_20190528_023657002','FAST_c021_memory_20190529_015547002', ...
-    'FAST_c022_memory_20190529_025137002','FAST_c023_memory_20190603_093141002', ...
-    'FAST_c024_memory_20190603_095826002','FAST_c025_memory_20190603_112252002', ...
-    'FAST_c026_memory_20190603_115004002','FAST_c027_memory_20190603_121604002', ...
-    'FAST_c028_memory_20190603_123846002','FAST_c029_memory_20190611_092502002', ...
-    'FAST_c030_memory_20190611_095238002','FAST_c031_memory_20190617_112926002', ...
-    'FAST_c032_memory_20190729_105106002','FAST_c033_memory_20190729_111502002'}
-%leaving out 'FAST_c034_memory_20190729_114331002' - only four trials,
-%FAST_001 - not control?
-
-Angelman_group_low_artrej_thresh = ...
-    {'as_002_memory_ABOM_20170713_111013002', ...
-    'as_003_memory_ABOM_20170713_124013002', ...
-    'as_004_memory_ABOM_20170713_022047002', ...
-    'as_005_memory_ABOM_20170713_032520002', ...
-    'as_007_memory_ABOM_20170713_054349002', ...
-    'as_008_memory_ABOM_20170713_065339002', ...
-    'as_009_memory_ABOM_20170714_112117002', ...
-    'as_010_memory_ABOM_20170714_015600002', ...
-    'as_011_memory_ABOM_20170714_041812002', ...
-    'as_012_memory_ABOM_20170714_050158002', ...
-    'as_013_memory_ABOM_20170714_053926002', ...
-    'as_015_memory_ABOM_20170911_120223002', ...
-    'as_016_memory_ABOM_20170911_023110002', ...
-    'as_110_memory_FAST_20190722_105830002', ...
-    'as_112_memory_FAST_20190724_125752002', ...
-    'as_113_memory_FAST_20190724_030559002', ...
-    'as_122_memory_FAST_20190725_110502002', ...
-    'as_123_memory_FAST_20190725_044139002', ...
-    'as_124_memory_FAST_20190726_070722002', ...
-    'as_125_memory_FAST_20190726_084618002', ...
-    'as_128_memory_FAST_20190726_014653002', ...
-    'as_129_memory_FAST_20190726_022356002', ...
-    'as_130_memory_FAST_20190726_025301002', ...
-    'as_131_memory_FAST_20190726_035604002', ...
-    'as_132_memory_FAST_20190726_044105002', ...
-    'as_133_memory_FAST_20190726_051106002', ...
-    'as_134_memory_FAST_20190726_054406002', ...
-    'as_135_memory_FAST_20190727_080149002', ...
-    'as_136_memory_FAST_20190727_084810002', ...
-    'as_201_memory_Duis_20181127_013101002', ...
-    'as_202_memory_Duis_20181105_022650002', ...
-    'as_204_memory_Duis_20181126_013749002', ...
-    'as_205_memory_Duis_20190104_125954002', ...
-    'as_206_memory_Duis_20190222_115628002', ...
-    'as_208_memory_Duis_20190308_011108002', ...
-    'as_210_memory_Duis_20190211_combined', ...
-    'as_211_memory_Duis_20190222_013804002', ...
-    'as_213_memory_Duis_20191008_012721002', ...
-    'as_215_memory_Duis_20190415_101241002', ...
-    'as_219_memory_Duis_20190913_123025002', ...
-    'as_220_memory_Duis_20190710_012558002', ...
-    'as_221_memory_Duis_20190830_011505002', ...
-    'as_222_memory_Duis_20190916_020101002', ...
-    'as_225_memory_Duis_20191015_023350002', ...
-    'as_226_memory_Duis_20191111_123224002'}
 %several subjects excluded due to low/no trials after trial rejection
-
-all_names = cat(2,Angelman_group_low_artrej_thresh,Control_group)
-
-%several subjects excluded due to low/no trials after trial rejection
-datain = './WAVELET_OUTPUT_DIR_Angelman_exp_high_artrej_thresh/';
-dataout = './statistics_output_Angelman_high_threshold/';
 conditions = {'sing','rept'};
 clusternames = {'Frontal','Parietal','Central'};
 clusters={{'19','10','20','11','4','12','5'},...
@@ -120,7 +47,8 @@ data_forttest = {'frontal_data_forttest','parietal_data_forttest','central_data_
 % data_sing = {,'p_frontal_sing','p_parietal_sing','p_central_sing'}
 % data_rept= {,'p_frontal_rept','p_parietal_rept','p_central_rept'}
 bins = 80
-time_length = 551
+time_length = 551 %(1,000 ms time window)
+time_export_bin = 25 %(this is 100 ms worth of time-points as we collect a data point once every 4 ms, i.e., sample rate is 250Hz))
 freq_range = 30
 sample = length(all_names)
 frex=logspace(log10(2),log10(freq_range),bins); %change to match wavelet
@@ -144,7 +72,7 @@ tempdata = repmat({tempdata1},1,3);
 data_forttest1 = zeros(length(1:freq_range),bins,time_length);
 data_forttest = repmat({data_forttest1,data_forttest1,data_forttest1},[sample 1]); %here sample size of sample
 addpath /Users/patrick/Desktop/fieldtrip-20200423
-thresh =0.005;
+%thresh =0.005;
 save_avg = {'frontal_avg','parietal_avg','central_avg'}
 save_dat = {'frontal_data_forttest','parietal_data_forttest','central_data_forttest'}
 save_sing = {'p_thresh_frontal_sing','p_thresh_parietal_sing','p_thresh_central_sing'}
@@ -161,7 +89,8 @@ for block_i = 1:length(conditions)
             %             data_store = {tempdata1,tempdata1,tempdata1}
             tempdata   = out
             for elec_i = 1:length(clusterelec)
-                load([datain all_names{name_i} filesep conditions{block_i} filesep all_names{name_i} '_REPAIRED_AND_REFERENCED_Incidental_' conditions{block_i} '_' clusterelec{elec_i} '_imagcoh_mwtf.mat'],'mw_tf');
+                %load([datain all_names{name_i} filesep conditions{block_i} filesep all_names{name_i} '_REPAIRED_AND_REFERENCED_Incidental_' conditions{block_i} '_' clusterelec{elec_i} '_imagcoh_mwtf.mat'],'mw_tf');
+                load([datain all_names{name_i} filesep conditions{block_i} filesep all_names{name_i} '_' conditions{block_i} '_' clusterelec{elec_i} '_imagcoh_mwtf.mat'],'mw_tf');
                 cond_mwtf{cluster_i} = cond_mwtf{cluster_i}+mw_tf;
                 count{cluster_i} = count{cluster_i}+1;
                 tempdata{cluster_i} = tempdata{cluster_i}+mw_tf;
@@ -187,8 +116,7 @@ for block_i = 1:length(conditions)
 
 end
     clear cond_mwtf cond_mwtf1 tempdata tempdata1 count data_forttest data_forttest1 data_store clusterelec ...
-        clusters cluster_i elec_i frontal_avg parietal_avg central_avg frontal_data_forttest parietal_data_forttest ...
-        central_data_forttest frontal parietal central mw_tf
+        clusters cluster_i elec_i frontal_data_forttest parietal_data_forttest central_data_forttest frontal_avg parietal_avg central_avg frontal parietal central mw_tf
 %% Analyse time point*frex for Condition Avg
 % analyze time*fex for each condition and cluster within the whole sample,
 % load in each, like single frontal, repeat frontal, single parietal etc...
@@ -203,6 +131,10 @@ for i = 1:length(ttest_data);
         [~,p_rept{i}(freq,:)] = ttest(squeeze(ttest_rept{i}(:,freq,ttime_start:ttime_stop)));
     end;
 end;
+
+%thresh =0.0000000000005; %first
+%thresh =0.00000000000005; %second 
+thresh =0.000000000005; %third
 
 % Apply FDR Corrections %now correct to make sure no false positives
 p_crit  = zeros(size(ttest_sing{1,1}));
@@ -239,8 +171,8 @@ for i = 1:length(p_crit_rept)
     save([[dataout,save_rept{i}] '.mat'],'need_save')
 end
 
-%% Plot masked data against whole sample average
-
+% %% Plot masked data against whole sample average
+% 
 front_mean_sing = cell2mat(struct2cell(load([dataout 'avg_sing_' clusternames{1} '_power.mat'],'frontal_avg')));
 front_mean_rept = cell2mat(struct2cell(load([dataout 'avg_rept_' clusternames{1} '_power.mat'],'frontal_avg')));
 
@@ -250,79 +182,85 @@ parietal_mean_rept = cell2mat(struct2cell(load([dataout 'avg_rept_' clusternames
 central_mean_sing = cell2mat(struct2cell(load([dataout 'avg_sing_' clusternames{3} '_power.mat'],'central_avg')));
 central_mean_rept = cell2mat(struct2cell(load([dataout 'avg_rept_' clusternames{3} '_power.mat'],'central_avg')));
 
-p_thresh_frontal_sing = p_thresh_sing{1}
+p_thresh_frontal_sing = p_thresh_sing{1};
+p_thresh_parietal_sing = p_thresh_sing{2};
+p_thresh_central_sing = p_thresh_sing{3};
 
-% Frontal Sing
-figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
-subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),front_mean_sing(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
-mask_data_front_sing=zeros(size(front_mean_sing(1:bins,ttime_start:ttime_stop)));
-temp_data_front_sing=front_mean_sing(1:bins,ttime_start:ttime_stop);
-mask_data_front_sing(p_thresh_frontal_sing(1:bins,:)==1)=temp_data_front_sing(p_thresh_frontal_sing(1:bins,:)==1);
-hold on;
-subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_frontal_sing(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-2 2])
-xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
-set(gca,'FontSize',18);title('Frontal');axis square;
+p_thresh_frontal_rept = p_thresh_rept{1};
+p_thresh_parietal_rept = p_thresh_rept{2};
+p_thresh_central_rept = p_thresh_rept{3};
 
-% Frontal Rept
-figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
-subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),front_mean_rept(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
-mask_data_front_rept=zeros(size(front_mean_rept(1:bins,ttime_start:ttime_stop)));
-temp_data_front_rept=front_mean_rept(1:bins,ttime_start:ttime_stop);
-mask_data_front_rept(p_thresh_frontal_rept(1:bins,:)==1)=temp_data_front_rept(p_thresh_frontal_rept(1:bins,:)==1);
-hold on;
-subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_frontal_rept(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-2 2])
-xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
-set(gca,'FontSize',18);title('Frontal');axis square;
-
-% Parietal Sing
-figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
-subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),parietal_mean_sing(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
-mask_data_parietal_sing=zeros(size(parietal_mean_sing(1:bins,ttime_start:ttime_stop)));
-temp_data_parietal_sing=parietal_mean_sing(1:bins,ttime_start:ttime_stop);
-mask_data_parietal_sing(p_thresh_parietal_sing(1:bins,:)==1)=temp_data_parietal_sing(p_thresh_parietal_sing(1:bins,:)==1);
-hold on;
-subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_parietal_sing(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-2 2])
-xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
-set(gca,'FontSize',18);title('Parietal');axis square;
-%         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
-%         close
-
-% Parietal Rept
-figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
-subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),parietal_mean_rept(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
-mask_data_parietal_rept=zeros(size(parietal_mean_rept(1:bins,ttime_start:ttime_stop)));
-temp_data_parietal_rept=parietal_mean_rept(1:bins,ttime_start:ttime_stop);
-mask_data_parietal_rept(p_thresh_parietal_rept(1:bins,:)==1)=temp_data_parietal_rept(p_thresh_parietal_rept(1:bins,:)==1);
-hold on;
-subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_parietal_rept(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-2 2])
-xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
-set(gca,'FontSize',18);title('Parietal');axis square;
-%         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
-%         close
-
-% Central Sing
-figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
-subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),central_mean_sing(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
-mask_data_central_sing=zeros(size(central_mean_sing(1:bins,ttime_start:ttime_stop)));
-temp_data_central_sing=central_mean_sing(1:bins,ttime_start:ttime_stop);
-mask_data_central_sing(p_thresh_central_sing(1:bins,:)==1)=temp_data_central_sing(p_thresh_central_sing(1:bins,:)==1);
-hold on;
-subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_central_sing(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-2 2])
-xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
-set(gca,'FontSize',18);title('Parietal');axis square;
-%         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
-%         close
-
-% Central Rept
-figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
-subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),central_mean_rept(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
-mask_data_central_rept=zeros(size(central_mean_rept(1:bins,ttime_start:ttime_stop)));
-temp_data_central_rept=central_mean_rept(1:bins,ttime_start:ttime_stop);
-mask_data_central_rept(p_thresh_central_rept(1:bins,:)==1)=temp_data_central_rept(p_thresh_central_rept(1:bins,:)==1);
-hold on;
-subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_central_rept(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-2 2])
-xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
-set(gca,'FontSize',18);title('Parietal');axis square;
+% % Frontal Sing
+% figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
+% subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),front_mean_sing(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
+% mask_data_front_sing=zeros(size(front_mean_sing(1:bins,ttime_start:ttime_stop)));
+% temp_data_front_sing=front_mean_sing(1:bins,ttime_start:ttime_stop);
+% mask_data_front_sing(p_thresh_frontal_sing(1:bins,:)==1)=temp_data_front_sing(p_thresh_frontal_sing(1:bins,:)==1);
+% hold on;
+% subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_frontal_sing(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-4 4])
+% xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
+% set(gca,'FontSize',18);title('Frontal');axis square;
+% 
+% % Frontal Rept
+% figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
+% subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),front_mean_rept(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
+% mask_data_front_rept=zeros(size(front_mean_rept(1:bins,ttime_start:ttime_stop)));
+% temp_data_front_rept=front_mean_rept(1:bins,ttime_start:ttime_stop);
+% mask_data_front_rept(p_thresh_frontal_rept(1:bins,:)==1)=temp_data_front_rept(p_thresh_frontal_rept(1:bins,:)==1);
+% hold on;
+% subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_frontal_rept(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-4 4])
+% xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
+% set(gca,'FontSize',18);title('Frontal');axis square;
+% 
+% % Parietal Sing
+% figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
+% subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),parietal_mean_sing(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
+% mask_data_parietal_sing=zeros(size(parietal_mean_sing(1:bins,ttime_start:ttime_stop)));
+% temp_data_parietal_sing=parietal_mean_sing(1:bins,ttime_start:ttime_stop);
+% mask_data_parietal_sing(p_thresh_parietal_sing(1:bins,:)==1)=temp_data_parietal_sing(p_thresh_parietal_sing(1:bins,:)==1);
+% hold on;
+% subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_parietal_sing(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-4 4])
+% xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
+% set(gca,'FontSize',18);title('Parietal');axis square;
+% %         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
+% %         close
+% 
+% % Parietal Rept
+% figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
+% subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),parietal_mean_rept(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
+% mask_data_parietal_rept=zeros(size(parietal_mean_rept(1:bins,ttime_start:ttime_stop)));
+% temp_data_parietal_rept=parietal_mean_rept(1:bins,ttime_start:ttime_stop);
+% mask_data_parietal_rept(p_thresh_parietal_rept(1:bins,:)==1)=temp_data_parietal_rept(p_thresh_parietal_rept(1:bins,:)==1);
+% hold on;
+% subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_parietal_rept(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-4 4])
+% xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
+% set(gca,'FontSize',18);title('Parietal');axis square;
+% %         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
+% %         close
+% 
+% % Central Sing
+% figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
+% subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),central_mean_sing(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
+% mask_data_central_sing=zeros(size(central_mean_sing(1:bins,ttime_start:ttime_stop)));
+% temp_data_central_sing=central_mean_sing(1:bins,ttime_start:ttime_stop);
+% mask_data_central_sing(p_thresh_central_sing(1:bins,:)==1)=temp_data_central_sing(p_thresh_central_sing(1:bins,:)==1);
+% hold on;
+% subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_central_sing(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-4 4])
+% xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
+% set(gca,'FontSize',18);title('Central');axis square;
+% %         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
+% %         close
+% 
+% % Central Rept
+% figure();set(gcf,'Position',[0 0 1920 1080],'Color',[1 1 1]);
+% subplot(1,2,1);contourf(times(ttime_start:ttime_stop),frex(1:bins),central_mean_rept(1:bins,ttime_start:ttime_stop),50,'linecolor','none');caxis([-2 2]);colormap(parula)
+% mask_data_central_rept=zeros(size(central_mean_rept(1:bins,ttime_start:ttime_stop)));
+% temp_data_central_rept=central_mean_rept(1:bins,ttime_start:ttime_stop);
+% mask_data_central_rept(p_thresh_central_rept(1:bins,:)==1)=temp_data_central_rept(p_thresh_central_rept(1:bins,:)==1);
+% hold on;
+% subplot(1,2,1);contour(times(ttime_start:ttime_stop),frex(1:bins),p_thresh_central_rept(1:bins,:),1,'linecolor','k','linewidth',3);caxis([-4 4])
+% xlabel('Time (ms)','FontSize',18);ylabel('Frequency (Hz)','FontSize',18);
+% set(gca,'FontSize',18);title('Central');axis square;
 %         saveas(gcf,[dataout 'Incidental_Memory_TaskAvg_Power_005.pdf'],'pdf');
 %         close
 
@@ -331,18 +269,65 @@ set(gca,'FontSize',18);title('Parietal');axis square;
 % Previously: For all vals between 300-600ms
 
 
-tmp_data1 = zeros(sample,bins,time_length); % for 78 subjects
-tmp_data2 = zeros(sample,bins,time_length);
-tmp_data3 = zeros(sample,bins,time_length);
-tmp_data4 = zeros(sample,bins,time_length);
-tmp_data5 = zeros(sample,bins,time_length);
-tmp_data6 = zeros(sample,bins,time_length);
+tmp_data1 = zeros(sample,bins,time_export_bin); % for all subjects, for 100ms time bins
+tmp_data2 = zeros(sample,bins,time_export_bin);
+tmp_data3 = zeros(sample,bins,time_export_bin);
+tmp_data4 = zeros(sample,bins,time_export_bin);
+tmp_data5 = zeros(sample,bins,time_export_bin);
+tmp_data6 = zeros(sample,bins,time_export_bin);
+
+%time_export = ttime_stop - ttime_start + 1     % get values to extract from p_thresh to match with ttest data for export 
+ttime_start1 = ttime_start + time_export_bin      %setting different time starts to extract 100 ms bins
+ttime_start = ttime_start1 %201
+
+ttime_start2 = ttime_start1 + time_export_bin
+ttime_start = ttime_start2 %226
+
+ttime_start3 = ttime_start2 + time_export_bin
+ttime_start = ttime_start3 %251
+
+ttime_start4 = ttime_start3 + time_export_bin
+ttime_start = ttime_start4 %276
+
+ttime_start5 = ttime_start4 + time_export_bin      %setting different time starts to extract 100 ms bins
+ttime_start = ttime_start5 %301
+
+ttime_start6 = ttime_start5 + time_export_bin
+ttime_start = ttime_start6 %326
+
+ttime_start7 = ttime_start6 + time_export_bin 
+ttime_start = ttime_start7 %351
+
+ttime_start8 = ttime_start7 + time_export_bin      %setting different time starts to extract 100 ms bins
+ttime_start = ttime_start8 %376
+
+ttime_start9 = ttime_start8 + time_export_bin
+ttime_start = ttime_start9 %401
+
+
+
+
+singf = ttest_sing{1};
+reptf = ttest_rept{1};
+sp = ttest_sing{2};
+rp = ttest_rept{2};
+sc = ttest_sing{3};
+rc = ttest_rept{3};
+
+tmp_data1 = zeros(sample,bins,time_export_bin); % for all subjects, for 100ms time bins
+tmp_data2 = zeros(sample,bins,time_export_bin);
+tmp_data3 = zeros(sample,bins,time_export_bin);
+tmp_data4 = zeros(sample,bins,time_export_bin);
+tmp_data5 = zeros(sample,bins,time_export_bin);
+tmp_data6 = zeros(sample,bins,time_export_bin);
+
 
 for name_i = 1:length(all_names)
     for freq_i = 1:bins
-        for time_i = ttime_start:ttime_stop
+        for time_i = 1:time_export_bin
             if p_thresh_frontal_sing(freq_i,time_i)==1
-                tmp_data1(name_i,freq_i,time_i) = singf(name_i,freq_i,time_i);
+                ttest_time_export = time_i+ttime_start - 1
+                tmp_data1(name_i,freq_i,time_i) = singf(name_i,freq_i,ttest_time_export);
             end
         end
     end
@@ -350,9 +335,10 @@ end
 
 for name_i = 1:length(all_names)
     for freq_i = 1:bins
-        for time_i = ttime_start:ttime_stop
+        for time_i = 1:time_export_bin
             if p_thresh_frontal_rept(freq_i,time_i)==1
-                tmp_data2(name_i,freq_i,time_i) = reptf(name_i,freq_i,time_i);
+                ttest_time_export = time_i+ttime_start-1
+                tmp_data2(name_i,freq_i,time_i) = reptf(name_i,freq_i,ttest_time_export);
             end
         end
     end
@@ -360,9 +346,10 @@ end
 
 for name_i = 1:length(all_names)
     for freq_i = 1:bins
-        for time_i = ttime_start:ttime_stop
+        for time_i = 1:time_export_bin
             if p_thresh_parietal_sing(freq_i,time_i)==1
-                tmp_data3(name_i,freq_i,time_i) = sp(name_i,freq_i,time_i);
+                ttest_time_export = time_i+ttime_start-1
+                tmp_data3(name_i,freq_i,time_i) = sp(name_i,freq_i,ttest_time_export);
             end
         end
     end
@@ -372,30 +359,32 @@ end
 
 for name_i = 1:length(all_names)
     for freq_i = 1:bins
-        for time_i = ttime_start:ttime_stop
+        for time_i = 1:time_export_bin
             if p_thresh_parietal_rept(freq_i,time_i)==1
-                tmp_data4(name_i,freq_i,time_i) = rp(name_i,freq_i,time_i);
+                ttest_time_export = time_i+ttime_start-1
+                tmp_data4(name_i,freq_i,time_i) = rp(name_i,freq_i,ttest_time_export);
             end
         end
     end
 end
-
-
+ 
 for name_i = 1:length(all_names)
     for freq_i = 1:bins
-        for time_i = ttime_start:ttime_stop
+        for time_i = 1:time_export_bin
             if p_thresh_central_sing(freq_i,time_i)==1
-                tmp_data5(name_i,freq_i,time_i) = sc(name_i,freq_i,time_i);
+                ttest_time_export = time_i+ttime_start-1
+                tmp_data5(name_i,freq_i,time_i) = sc(name_i,freq_i,ttest_time_export);
             end
         end
     end
 end
-
+ 
 for name_i = 1:length(all_names)
     for freq_i = 1:bins
-        for time_i = ttime_start:ttime_stop
+        for time_i = 1:time_export_bin
             if p_thresh_central_rept(freq_i,time_i)==1
-                tmp_data6(name_i,freq_i,time_i) = rc(name_i,freq_i,time_i);
+                ttest_time_export = time_i+ttime_start-1
+                tmp_data6(name_i,freq_i,time_i) = rc(name_i,freq_i,ttest_time_export);
             end
         end
     end
@@ -410,12 +399,94 @@ sc_avg = mean(tmp_data5,3);
 rc_avg = mean(tmp_data6,3);
 %clear tmp_data1  tmp_data2 tmp_data3 tmp_data4 tmp_data5 tmp_data6
 
-save([dataout 'frontal_single_0-1000_power.mat'],'singf_avg');
-save([dataout 'frontal_repeat_0-1000_power.mat'],'reptf_avg');
-save([dataout 'parietal_single_0-1000_power.mat'],'sp_avg');
-save([dataout 'parietal_repeat_0-1000_power.mat'],'rp_avg');
-save([dataout 'central_single_0-1000_power.mat'],'sc_avg');
-save([dataout 'central_repeat_0-1000_power.mat'],'rc_avg');
+% save([dataout 'frontal_single_0-1000_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_0-1000_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_0-1000_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_0-1000_power.mat'],'rp_avg');
+% save([dataout 'central_single_0-1000_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_0-1000_power.mat'],'rc_avg');
+
+
+% ttime_start = 175
+% save([dataout 'frontal_single_0-96_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_0-96_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_0-96_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_0-96_power.mat'],'rp_avg');
+% save([dataout 'central_single_0-96_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_0-96_power.mat'],'rc_avg');
+
+% ttime_start = 201
+% save([dataout 'frontal_single_100-196_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_100-196_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_100-196_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_100-196_power.mat'],'rp_avg');
+% save([dataout 'central_single_100-196_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_100-196_power.mat'],'rc_avg');
+
+% ttime_start = 226
+% save([dataout 'frontal_single_200-296_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_200-296_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_200-296_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_200-296_power.mat'],'rp_avg');
+% save([dataout 'central_single_200-296_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_200-296_power.mat'],'rc_avg');
+
+% ttime_start = 251
+% save([dataout 'frontal_single_300-396_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_300-396_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_300-396_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_300-396_power.mat'],'rp_avg');
+% save([dataout 'central_single_300-396_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_300-396_power.mat'],'rc_avg');
+
+% ttime_start = 276
+% save([dataout 'frontal_single_400-496_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_400-496_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_400-496_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_400-496_power.mat'],'rp_avg');
+% save([dataout 'central_single_400-496_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_400-496_power.mat'],'rc_avg');
+
+% ttime_start = 301
+% save([dataout 'frontal_single_500-596_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_500-596_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_500-596_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_500-596_power.mat'],'rp_avg');
+% save([dataout 'central_single_500-596_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_500-596_power.mat'],'rc_avg');
+
+% ttime_start = 326
+% save([dataout 'frontal_single_600-696_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_600-696_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_600-696_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_600-696_power.mat'],'rp_avg');
+% save([dataout 'central_single_600-696_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_600-696_power.mat'],'rc_avg');
+
+% ttime_start = 351
+% save([dataout 'frontal_single_700-796_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_700-796_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_700-796_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_700-796_power.mat'],'rp_avg');
+% save([dataout 'central_single_700-796_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_700-796_power.mat'],'rc_avg');
+
+% ttime_start = 376
+% save([dataout 'frontal_single_800-896_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_800-896_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_800-896_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_800-896_power.mat'],'rp_avg');
+% save([dataout 'central_single_800-896_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_800-896_power.mat'],'rc_avg');
+
+% ttime_start = 401
+% save([dataout 'frontal_single_900-996_power.mat'],'singf_avg');
+% save([dataout 'frontal_repeat_900-996_power.mat'],'reptf_avg');
+% save([dataout 'parietal_single_900-996_power.mat'],'sp_avg');
+% save([dataout 'parietal_repeat_900-996_power.mat'],'rp_avg');
+% save([dataout 'central_single_900-996_power.mat'],'sc_avg');
+% save([dataout 'central_repeat_900-996_power.mat'],'rc_avg');
+
 
 %%
 %
@@ -980,3 +1051,200 @@ save([dataout 'central_repeat_0-1000_power.mat'],'rc_avg');
 %
 % clear cond_mw_tf1 cond_mw_tf2 cond_mw_tf3 tempdata tempdata2 tempdata3 count1 count2 count3 mw_tf mw_tf2 mw_tf3
 %
+
+Control_group = ...
+    {'FAST_c001_memory_20190410_081334002', ...
+    'FAST_c002_memory_20190410_082939002','FAST_c003_memory_20190422_034503002', ...
+    'FAST_c004_memory_20190425_101929002','FAST_c005_memory_20190425_110111002', ...
+    'FAST_c006_memory_20190425_040746002','FAST_c007_memory_20190426_124602002', ...
+    'FAST_c008_memory_20190426_011502002','FAST_c009_memory_20190501_083429002', ...
+    'FAST_c010_memory_20190501_035324002','FAST_c011_memory_20190506_031028002', ...
+    'FAST_c012_memory_20190506_033701002','FAST_c013_memory_20190507_033506002', ...
+    'FAST_c014_memory_20190509_040256002','FAST_c015_memory_20190509_043039002', ...
+    'FAST_c016_memory_20190515_044301002','FAST_c017_memory_20190520_023536002', ...
+    'FAST_c018_memory_20190528_103019002','FAST_c019_memory_20190528_021127002', ...
+    'FAST_c020_memory_20190528_023657002','FAST_c021_memory_20190529_015547002', ...
+    'FAST_c022_memory_20190529_025137002','FAST_c023_memory_20190603_093141002', ...
+    'FAST_c024_memory_20190603_095826002','FAST_c025_memory_20190603_112252002', ...
+    'FAST_c026_memory_20190603_115004002','FAST_c027_memory_20190603_121604002', ...
+    'FAST_c028_memory_20190603_123846002','FAST_c029_memory_20190611_092502002', ...
+    'FAST_c030_memory_20190611_095238002','FAST_c031_memory_20190617_112926002', ...
+    'FAST_c032_memory_20190729_105106002','FAST_c033_memory_20190729_111502002'}
+%leaving out 'FAST_c034_memory_20190729_114331002' - only four trials,
+%FAST_001 - not control?
+
+%%%%%high%%%% high rej thresh so least stringent art rej thresh
+
+Angelman_group_high_artrej_thresh = ...
+    {'as_001_memory_ABOM_20170523_121614002', ...
+    'as_002_memory_ABOM_20170713_111013002', ...
+    'as_003_memory_ABOM_20170713_124013002', ...
+    'as_004_memory_ABOM_20170713_022047002', ...
+    'as_005_memory_ABOM_20170713_032520002', ...
+    'as_007_memory_ABOM_20170713_054349002', ...
+    'as_008_memory_ABOM_20170713_065339002', ...
+    'as_009_memory_ABOM_20170714_112117002', ...
+    'as_010_memory_ABOM_20170714_015600002', ...
+    'as_011_memory_ABOM_20170714_041812002', ...
+    'as_012_memory_ABOM_20170714_050158002', ...
+    'as_013_memory_ABOM_20170714_053926002', ...
+    'as_014_memory_ABOM_20170714_060507002', ...
+    'as_015_memory_ABOM_20170911_120223002', ...
+    'as_016_memory_ABOM_20170911_023110002', ...
+    'as_110_memory_FAST_20190722_105830002', ...
+    'as_112_memory_FAST_20190724_125752002', ...
+    'as_113_memory_FAST_20190724_030559002', ...
+    'as_122_memory_FAST_20190725_110502002', ...
+    'as_123_memory_FAST_20190725_044139002', ...
+    'as_124_memory_FAST_20190726_070722002', ...
+    'as_125_memory_FAST_20190726_084618002', ...
+    'as_128_memory_FAST_20190726_014653002', ...
+    'as_129_memory_FAST_20190726_022356002', ...
+    'as_130_memory_FAST_20190726_025301002', ...
+    'as_131_memory_FAST_20190726_035604002', ...
+    'as_132_memory_FAST_20190726_044105002', ...
+    'as_133_memory_FAST_20190726_051106002', ...
+    'as_134_memory_FAST_20190726_054406002', ...
+    'as_135_memory_FAST_20190727_080149002', ...
+    'as_136_memory_FAST_20190727_084810002', ...
+    'as_201_memory_Duis_20181127_013101002', ...
+    'as_202_memory_Duis_20181105_022650002', ...
+    'as_203_memory_Duis_20190208_122030002', ...
+    'as_204_memory_Duis_20181126_013749002', ...
+    'as_205_memory_Duis_20190104_125954002', ...
+    'as_206_memory_Duis_20190222_115628002', ...
+    'as_208_memory_Duis_20190308_011108002', ...
+    'as_209_memory_Duis_20190211_105211002', ...
+    'as_210_memory_Duis_20190211_combined', ...
+    'as_211_memory_Duis_20190222_013804002', ...
+    'as_213_memory_Duis_20191008_012721002', ...
+    'as_215_memory_Duis_20190415_101241002', ...
+    'as_219_memory_Duis_20190913_123025002', ...
+    'as_220_memory_Duis_20190710_012558002', ...
+    'as_221_memory_Duis_20190830_011505002', ...
+    'as_222_memory_Duis_20190916_020101002', ...
+    'as_223_memory_Duis_20190930_012731002', ...
+    'as_225_memory_Duis_20191015_023350002', ...
+    'as_226_memory_Duis_20191111_123224002'}
+
+all_names = cat(2,Angelman_group_high_artrej_thresh,Control_group)
+subject_list = transpose(all_names)
+datain = './WAVELET_OUTPUT_DIR_Angelman_exp_high_artrej_thresh/';
+dataout = './statistics_output_Angelman_high_threshold/';
+save([dataout 'subject_list.mat'],'subject_list');
+writecell(subject_list, [dataout 'subject_list.txt'])
+
+
+% %several subjects excluded due to low/no trials after trial rejection
+
+
+%%%%%medium - at this threshold must reject 014,111,113,123,129,202,203,209,223
+
+%leaving out 'FAST_c034_memory_20190729_114331002' - only four trials,
+%FAST_001 - not control?
+%%%%%medium - at this threshold must reject 014,111,113,123,129,202,203,209,223
+Angelman_group_med_artrej_thresh = ...
+    {'as_001_memory_ABOM_20170523_121614002', ...
+    'as_002_memory_ABOM_20170713_111013002', ...
+    'as_003_memory_ABOM_20170713_124013002', ...
+    'as_004_memory_ABOM_20170713_022047002', ...
+    'as_005_memory_ABOM_20170713_032520002', ...
+    'as_007_memory_ABOM_20170713_054349002', ...
+    'as_008_memory_ABOM_20170713_065339002', ...
+    'as_009_memory_ABOM_20170714_112117002', ...
+    'as_010_memory_ABOM_20170714_015600002', ...
+    'as_011_memory_ABOM_20170714_041812002', ...
+    'as_012_memory_ABOM_20170714_050158002', ...
+    'as_013_memory_ABOM_20170714_053926002', ...
+    'as_015_memory_ABOM_20170911_120223002', ...
+    'as_016_memory_ABOM_20170911_023110002', ...
+    'as_110_memory_FAST_20190722_105830002', ...
+    'as_112_memory_FAST_20190724_125752002', ...
+    'as_122_memory_FAST_20190725_110502002', ...
+    'as_124_memory_FAST_20190726_070722002', ...
+    'as_125_memory_FAST_20190726_084618002', ...
+    'as_128_memory_FAST_20190726_014653002', ...
+    'as_130_memory_FAST_20190726_025301002', ...
+    'as_131_memory_FAST_20190726_035604002', ...
+    'as_132_memory_FAST_20190726_044105002', ...
+    'as_133_memory_FAST_20190726_051106002', ...
+    'as_134_memory_FAST_20190726_054406002', ...
+    'as_135_memory_FAST_20190727_080149002', ...
+    'as_136_memory_FAST_20190727_084810002', ...
+    'as_201_memory_Duis_20181127_013101002', ...
+    'as_204_memory_Duis_20181126_013749002', ...
+    'as_205_memory_Duis_20190104_125954002', ...
+    'as_206_memory_Duis_20190222_115628002', ...
+    'as_208_memory_Duis_20190308_011108002', ...
+    'as_210_memory_Duis_20190211_combined', ...
+    'as_211_memory_Duis_20190222_013804002', ...
+    'as_213_memory_Duis_20191008_012721002', ...
+    'as_215_memory_Duis_20190415_101241002', ...
+    'as_219_memory_Duis_20190913_123025002', ...
+    'as_220_memory_Duis_20190710_012558002', ...
+    'as_221_memory_Duis_20190830_011505002', ...
+    'as_222_memory_Duis_20190916_020101002', ...
+    'as_225_memory_Duis_20191015_023350002', ...
+    'as_226_memory_Duis_20191111_123224002'}
+
+all_names = cat(2,Angelman_group_med_artrej_thresh,Control_group)
+subject_list = transpose(all_names)
+datain = './WAVELET_OUTPUT_DIR_Angelman_exp_med_artrej_thresh/';
+dataout = './statistics_output_Angelman_med_threshold/';
+save([dataout 'subject_list.mat'],'subject_list');
+writecell(subject_list, [dataout 'subject_list.txt'])
+
+%several subjects excluded due to low/no trials after trial rejection
+
+%%%%%low%%%%%% this threshold must reject 014,111,113,123,129,137,202,203,205,206,209,211,215,220,223
+
+
+%leaving out 'FAST_c034_memory_20190729_114331002' - only four trials,
+%FAST_001 - not control?
+
+Angelman_group_low_artrej_thresh = ...
+    {'as_001_memory_ABOM_20170523_121614002', ...
+    'as_002_memory_ABOM_20170713_111013002', ...
+    'as_003_memory_ABOM_20170713_124013002', ...
+    'as_004_memory_ABOM_20170713_022047002', ...
+    'as_005_memory_ABOM_20170713_032520002', ...
+    'as_007_memory_ABOM_20170713_054349002', ...
+    'as_008_memory_ABOM_20170713_065339002', ...
+    'as_009_memory_ABOM_20170714_112117002', ...
+    'as_010_memory_ABOM_20170714_015600002', ...
+    'as_011_memory_ABOM_20170714_041812002', ...
+    'as_012_memory_ABOM_20170714_050158002', ...
+    'as_013_memory_ABOM_20170714_053926002', ...
+    'as_015_memory_ABOM_20170911_120223002', ...
+    'as_016_memory_ABOM_20170911_023110002', ...
+    'as_110_memory_FAST_20190722_105830002', ...
+    'as_112_memory_FAST_20190724_125752002', ...
+    'as_122_memory_FAST_20190725_110502002', ...
+    'as_124_memory_FAST_20190726_070722002', ...
+    'as_125_memory_FAST_20190726_084618002', ...
+    'as_128_memory_FAST_20190726_014653002', ...
+    'as_130_memory_FAST_20190726_025301002', ...
+    'as_131_memory_FAST_20190726_035604002', ...
+    'as_132_memory_FAST_20190726_044105002', ...
+    'as_133_memory_FAST_20190726_051106002', ...
+    'as_134_memory_FAST_20190726_054406002', ...
+    'as_135_memory_FAST_20190727_080149002', ...
+    'as_136_memory_FAST_20190727_084810002', ...
+    'as_201_memory_Duis_20181127_013101002', ...
+    'as_204_memory_Duis_20181126_013749002', ...
+    'as_208_memory_Duis_20190308_011108002', ...
+    'as_210_memory_Duis_20190211_combined', ...
+    'as_213_memory_Duis_20191008_012721002', ...
+    'as_219_memory_Duis_20190913_123025002', ...
+    'as_221_memory_Duis_20190830_011505002', ...
+    'as_222_memory_Duis_20190916_020101002', ...
+    'as_225_memory_Duis_20191015_023350002', ...
+    'as_226_memory_Duis_20191111_123224002'}
+%several subjects excluded due to low/no trials after trial rejection
+
+all_names = cat(2,Angelman_group_low_artrej_thresh,Control_group)
+subject_list = transpose(all_names)
+datain = './WAVELET_OUTPUT_DIR_Angelman_exp_low_artrej_thresh/';
+dataout = './statistics_output_Angelman_low_threshold/';
+save([dataout 'subject_list.mat'],'subject_list');
+writecell(subject_list, [dataout 'subject_list.txt'])
