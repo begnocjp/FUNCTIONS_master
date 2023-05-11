@@ -131,8 +131,8 @@ for name_i = 1:length(wpms.names)
 end
 
 %% Trial Definition ONLY : Incidental
-reject_min = -5000000000000
-reject_max = 5000000000000
+reject_min = -500000000000
+reject_max = 500000000000
 art_thresh_chan=1:128;
 
 pre_trial = .2; %for target 1 sec on each side, for cue
@@ -153,26 +153,25 @@ for name_i = 1:length(wpms.names)
 patrick_docker_ccm256_reinterpolate(wpms,name_i,condition,nlout,nlabel);
 end
 
-
-%low: with this 210 had 132 trials,  122 had wierd trial data
+%low: 5.0000e+9 max with this 210 had 132 trials,  122 had wierd trial data
+%reject_min = -5000000000
+%reject_max = 5000000000
 %reject_min = -50000000000
 %reject_max = 50000000000
-%at this threshold must reject 006,014,108,111,120,126,127,137,203,209,223
 
-%medium
+%at this threshold must reject 014,111,113,123,129,137,202,205,206,209,211,215,220,223
+
+%medium 5.0000e+10 max
+%reject_min = -50000000000
+%reject_max = 50000000000
 %reject_min = -500000000000
 %reject_max = 500000000000
-%at this threshold must reject 014,108,127,111,203,209,223
+%at this threshold must reject 014,111,113,123,129,202,203,209,223
 
-
-%high
+%high 5.0000e+11 max
 %reject_min = -5000000000000
 %reject_max = 5000000000000
 %at this threshold must reject 111
-
-
-
-
 
 %     clear post_trial pre_trial trialfunction
 %     clear sample*
@@ -207,7 +206,7 @@ end
 % Apply scalp current density montage
 addpath(genpath([wpms.dirs.CWD,wpms.dirs.FUNCTIONS '/CSDtoolbox']));
 type = 'egi';
-for name_i = 1:length(wpms.names)
+for name_i = 35%1:length(wpms.names)
     patrick_ccm256_csd_transformation_v2(wpms,name_i,condition,art_thresh_chan,nlabel,num_chan); %,type);
 end
 %% CONVERT FROM FIELDTRIP TO EEG STRUCT
@@ -224,7 +223,7 @@ condition_code_values.sing = 1;
 condition_code_values.rept = 2;
 wpms.sampling_frequency = 250;
 
-for name_i =1:length(wpms.names)
+for name_i =35%1:length(wpms.names)
     fnl_saveOffIndividualConditions(wpms,conditions,cond,condition_code_values,name_i);
     patrick_fnl_setup_eegstructure(wpms,conditions,cond,name_i);
 end
